@@ -7,7 +7,9 @@ namespace App\Controller;
 
 use App\Entity\Advert;
 use App\Repository\AdvertRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -20,24 +22,23 @@ class AdvertController extends AbstractController
     /**
      * Index action.
      *
-     * @param AdvertRepository $advertRepository Advert repository
+     * @param Request            $request          HTTP Request
+     * @param AdvertRepository   $advertRepository Advert repository
+     * @param PaginatorInterface $paginator        Paginator
      *
      * @return Response HTTP response
      */
-    #[Route(
-        name: 'advert_index',
-        methods: 'GET'
-    )]
-    public function index(AdvertRepository $advertRepository): Response
+    #[Route(name: 'advert_index', methods: 'GET')]
+    public function index(Request $request, AdvertRepository $advertRepository, PaginatorInterface $paginator): Response
     {
-        $adverts = $advertRepository->findAll();
-
-        return $this->render(
-            'advert/index.html.twig',
-            ['adverts' => $adverts]
+        $pagination = $paginator->paginate(
+            $advertRepository->queryAll(),
+            $request->query->getInt('page', 1),
+            AdvertRepository::PAGINATOR_ITEMS_PER_PAGE
         );
-    }
 
+        return $this->render('advert/index.html.twig', ['pagination' => $pagination]);
+    }
     /**
      * Show action.
      *
