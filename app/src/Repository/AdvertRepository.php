@@ -48,11 +48,16 @@ class AdvertRepository extends ServiceEntityRepository
     /**
      * Query all records.
      *
-     * @return QueryBuilder Query builder
+     * @return \Doctrine\ORM\QueryBuilder Query builder
      */
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
+            ->select(
+                'partial advert.{id, createdAt, updatedAt, title}',
+                'partial category.{id, title}'
+            )
+            ->join('advert.category', 'category')
             ->orderBy('advert.updatedAt', 'DESC');
     }
 
