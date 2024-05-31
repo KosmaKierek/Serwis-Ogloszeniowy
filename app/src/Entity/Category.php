@@ -1,20 +1,25 @@
 <?php
+/**
+ * Category entity.
+ */
 
 namespace App\Entity;
 
-use App\Repository\AdvertRepository;
-use Doctrine\DBAL\Types\Types;
+use App\Repository\CategoryRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Class Advert.
+ * Class Category.
  *
  * @psalm-suppress MissingConstructor
  */
-#[ORM\Entity(repositoryClass: AdvertRepository::class)]
-#[ORM\Table(name: 'adverts')]
-class Advert
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ORM\Table(name: 'categories')]
+#[ORM\UniqueConstraint(name: 'uq_categories_title', columns: ['title'])]
+#[UniqueEntity(fields: ['title'])]
+class Category
 {
     /**
      * Primary key.
@@ -29,22 +34,18 @@ class Advert
     /**
      * Created at.
      *
-     * @var DateTimeImmutable|null
-     *
-     * @psalm-suppress PropertyNotSetInConstructor
+     * @var \DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
-    private ?DateTimeImmutable $createdAt;
+    private ?\DateTimeImmutable $createdAt = null;
 
     /**
      * Updated at.
      *
-     * @var DateTimeImmutable|null
-     *
-     * @psalm-suppress PropertyNotSetInConstructor
+     * @var \DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
-    private ?DateTimeImmutable $updatedAt;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     /**
      * Title.
@@ -53,7 +54,6 @@ class Advert
      */
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $title = null;
-
 
     /**
      * Getter for Id.
