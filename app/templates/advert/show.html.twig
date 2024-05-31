@@ -16,6 +16,8 @@
             <dd>{{ advert.updatedAt|format_date('long') }}</dd>
             <dt>{{ 'label.title'|trans }}</dt>
             <dd>{{ advert.title }}</dd>
+            <dt>{{ 'label.category'|trans }}</dt>
+            <dd>{{ advert.category.title }}</dd>
         </dl>
         <p>
             <a href="{{ url('advert_index') }}" title="{{ 'action.back_to_list'|trans }}">

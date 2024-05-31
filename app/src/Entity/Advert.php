@@ -54,6 +54,15 @@ class Advert
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $title = null;
 
+    /**
+     * Category.
+     *
+     * @var Category
+     */
+    #[ORM\ManyToOne(targetEntity: Category::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $category = null;
+
 
     /**
      * Getter for Id.
@@ -123,5 +132,17 @@ class Advert
     public function setTitle(?string $title): void
     {
         $this->title = $title;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
+
+        return $this;
     }
 }
