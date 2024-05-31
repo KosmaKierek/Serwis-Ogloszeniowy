@@ -1,10 +1,13 @@
 <?php
 /**
- * Category repository.
+ * Tag repository.
  */
+
 namespace App\Repository;
 
 use App\Entity\Category;
+use App\Entity\Advert;
+use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -12,14 +15,16 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Category|null find($id, $lockMode = null, $lockVersion = null)
- * @method Category|null findOneBy(array $criteria, array $orderBy = null)
- * @method Category[]    findAll()
- * @method Category[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * Class TagRepository.
  *
- * @extends ServiceEntityRepository<Category>
+ * @method Tag|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Tag|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Tag[]    findAll()
+ * @method Tag[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
+ * @extends ServiceEntityRepository<Tag>
  */
-class CategoryRepository extends ServiceEntityRepository
+class TagRepository extends ServiceEntityRepository
 {
     /**
      * Constructor.
@@ -28,7 +33,7 @@ class CategoryRepository extends ServiceEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Category::class);
+        parent::__construct($registry, Tag::class);
     }
 
     /**
@@ -39,8 +44,8 @@ class CategoryRepository extends ServiceEntityRepository
     public function queryAll(): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
-            ->select('partial category.{id, createdAt, updatedAt, title}')
-            ->orderBy('category.updatedAt', 'DESC');
+            ->select('partial tag.{id, createdAt, updatedAt, title}')
+            ->orderBy('tag.updatedAt', 'DESC');
     }
 
     /**
@@ -52,35 +57,36 @@ class CategoryRepository extends ServiceEntityRepository
      */
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
-        return $queryBuilder ?? $this->createQueryBuilder('category');
+        return $queryBuilder ?? $this->createQueryBuilder('tag');
     }
 
     /**
      * Save entity.
      *
-     * @param Category $category Category entity
+     * @param Tag $tag Tag entity
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
-    public function save(Category $category): void
+    public function save(Tag $tag): void
     {
         assert($this->_em instanceof EntityManager);
-        $this->_em->persist($category);
+        $this->_em->persist($tag);
         $this->_em->flush();
     }
 
     /**
      * Delete entity.
      *
-     * @param Category $category Category entity
+     * @param Tag $tag Tag entity
      *
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function delete(Category $category): void
+    public function delete(Tag $tag): void
     {
-        //assert($this->_em instanceof EntityManager);
-        $this->_em->remove($category);
+        assert($this->_em instanceof EntityManager);
+        $this->_em->remove($tag);
         $this->_em->flush();
     }
-
-
 }
