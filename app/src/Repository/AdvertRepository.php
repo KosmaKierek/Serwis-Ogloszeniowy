@@ -5,8 +5,8 @@
 
 namespace App\Repository;
 
-use App\Entity\Advert;
 use App\Entity\Category;
+use App\Entity\Advert;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -73,6 +73,7 @@ class AdvertRepository extends ServiceEntityRepository
      */
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
+        $queryBuilder = null;
         return $queryBuilder ?? $this->createQueryBuilder('advert');
     }
 
@@ -96,5 +97,4 @@ class AdvertRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
-
 }

@@ -6,7 +6,9 @@
 namespace App\Service;
 
 use App\Entity\Advert;
+use App\Repository\AdvertRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * Interface AdvertServiceInterface.
@@ -21,5 +23,4 @@ interface AdvertServiceInterface
      * @return PaginationInterface<string, mixed> Paginated list
      */
     public function getPaginatedList(int $page): PaginationInterface;
-
 }

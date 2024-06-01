@@ -28,8 +28,8 @@ class AdvertService implements AdvertServiceInterface
     /**
      * Constructor.
      *
-     * @param AdvertRepository   $advertRepository Advert repository
-     * @param PaginatorInterface $paginator        Paginator
+     * @param AdvertRepository     $advertRepository Advert repository
+     * @param PaginatorInterface $paginator      Paginator
      */
     public function __construct(private readonly AdvertRepository $advertRepository, private readonly PaginatorInterface $paginator)
     {
@@ -50,4 +50,5 @@ class AdvertService implements AdvertServiceInterface
             self::PAGINATOR_ITEMS_PER_PAGE
         );
     }
+
 }

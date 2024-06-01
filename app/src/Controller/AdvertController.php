@@ -1,13 +1,12 @@
 <?php
 /**
- * Advert controller.
+ * advert controller.
  */
 
 namespace App\Controller;
 
 use App\Entity\Advert;
 use App\Service\AdvertService;
-use App\Service\AdvertServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,8 +22,9 @@ class AdvertController extends AbstractController
     /**
      * Constructor.
      */
-    public function __construct(private readonly AdvertServiceInterface $advertService)
+    public function __construct(private AdvertService $advertService)
     {
+        $this->advertService = $advertService;
     }
 
     /**

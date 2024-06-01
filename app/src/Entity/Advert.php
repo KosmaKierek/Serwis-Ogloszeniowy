@@ -1,9 +1,11 @@
 <?php
+/**
+ * Advert entity.
+ */
 
 namespace App\Entity;
 
 use App\Repository\AdvertRepository;
-use Doctrine\DBAL\Types\Types;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -19,7 +21,7 @@ class Advert
     /**
      * Primary key.
      *
-     * @var int|null
+     * @var int|!null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -60,7 +62,6 @@ class Advert
     #[ORM\ManyToOne(targetEntity: Category::class, fetch: 'EXTRA_LAZY')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
-
 
     /**
      * Getter for Id.

@@ -6,7 +6,7 @@
 namespace App\Form\Type;
 
 use App\Entity\Category;
-use App\Entity\Adverts;
+use App\Entity\Advert;
 use App\Form\DataTransformer\TagsDataTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

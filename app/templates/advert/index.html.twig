@@ -27,10 +27,11 @@
             {% for advert in pagination.items %}
                 <tr>
                     <td>{{ advert.id }}</td>
-                    <td>{{ advert.createdAt|format_date('long') }}</td>
-                    <td>{{ advert.updatedAt|format_date('long') }}</td>
+                    <td>{{ advert.createdAt|date('Y/m/d') }}</td>
+                    <td>{{ advert.updatedAt|date('Y/m/d') }}</td>
                     <td>{{ advert.title }}</td>
                     <td>{{ advert.category.title }}</td>
+
                     <td>
                         <a href="{{ url('advert_show', {id: advert.id}) }}" title="{{ 'action.show'|trans }}">
                             {{ 'action.show'|trans }}

@@ -11,13 +11,11 @@
             <dt>{{ 'label.id'|trans }}</dt>
             <dd>{{ advert.id }}</dd>
             <dt>{{ 'label.created_at'|trans }}</dt>
-            <dd>{{ advert.createdAt|format_date('long') }}</dd>
+            <dd>{{ advert.createdAt|date('Y/m/d') }}</dd>
             <dt>{{ 'label.updated_at'|trans }}</dt>
-            <dd>{{ advert.updatedAt|format_date('long') }}</dd>
+            <dd>{{ dvert.updatedAt|date('Y/m/d') }}</dd>
             <dt>{{ 'label.title'|trans }}</dt>
-            <dd>{{ advert.title }}</dd>
-            <dt>{{ 'label.category'|trans }}</dt>
-            <dd>{{ advert.category.title }}</dd>
+            <dd>{{  advert.title }}</dd>
         </dl>
         <p>
             <a href="{{ url('advert_index') }}" title="{{ 'action.back_to_list'|trans }}">
