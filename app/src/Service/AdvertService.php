@@ -5,7 +5,11 @@
 
 namespace App\Service;
 
+use App\Entity\Advert;
 use App\Repository\AdvertRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -50,5 +54,29 @@ class AdvertService implements AdvertServiceInterface
             self::PAGINATOR_ITEMS_PER_PAGE
         );
     }
+
+    /**
+     * Save entity.
+     *
+     * @param Advert $advert Advert entity
+     */
+    public function save(Advert $advert): void
+    {
+        $this->advertRepository->save($advert);
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param Advert $advert Advert entity
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function delete(Advert $advert): void
+    {
+        $this->advertRepository->delete($advert);
+    }
+
 
 }

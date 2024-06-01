@@ -47,6 +47,11 @@ class AdvertFixtures extends AbstractBaseFixtures implements DependentFixtureInt
             $category = $this->getRandomReference('categories');
             $advert->setCategory($category);
 
+            for ($i = 0; $i<3; ++$i)
+            {
+                $tag = $this->getRandomReference('tags');
+                $advert->addTag($tag);
+            }
             return $advert;
         });
 
@@ -63,6 +68,6 @@ class AdvertFixtures extends AbstractBaseFixtures implements DependentFixtureInt
      */
     public function getDependencies(): array
     {
-        return [CategoryFixtures::class];
+        return [CategoryFixtures::class, TagFixtures::class];
     }
 }

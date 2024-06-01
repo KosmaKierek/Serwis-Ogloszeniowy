@@ -20,6 +20,8 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'advert.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'advert.title') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label_category'|trans, 'category.title') }}</th>
+                {#<th>{{ knp_pagination_sortable(pagination, 'label.tags', 'category.tags') }}</th>#}
+                <th>{{ 'category.tags' }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
@@ -33,14 +35,33 @@
                     <td>{{ advert.category.title }}</td>
 
                     <td>
+                        {% for tag in advert.tags %}
+                            {{ tag.title }}{%  if not loop.last %},{% endif %}
+                        {% endfor %}
+                    </td>
+
+                    <td>
                         <a href="{{ url('advert_show', {id: advert.id}) }}" title="{{ 'action.show'|trans }}">
                             {{ 'action.show'|trans }}
+                        </a>
+
+                        <a href="{{ url('advert_edit', {id: advert.id}) }}" title="{{ 'action.edit'|trans }}">
+                            {{ 'action.edit'|trans }}
+                        </a>
+
+                        <a href="{{ url('advert_delete', {id: advert.id}) }}" title="{{ 'action.delete'|trans }}">
+                            {{ 'action.delete'|trans }}
                         </a>
                     </td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
+
+        <a href="{{ url('advert_create') }}" title="{{ 'action.create'|trans }}">
+            {{ 'action.create'|trans }}
+        </a>
+        <br><br>
 
         <div class="navigation text-center">
             {{ knp_pagination_render(pagination) }}

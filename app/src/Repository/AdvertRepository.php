@@ -8,8 +8,11 @@ namespace App\Repository;
 use App\Entity\Category;
 use App\Entity\Advert;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -36,7 +39,7 @@ class AdvertRepository extends ServiceEntityRepository
      *
      * @constant int
      */
-    public const PAGINATOR_ITEMS_PER_PAGE = 3;
+    public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
     /**
      * Constructor.
@@ -62,6 +65,34 @@ class AdvertRepository extends ServiceEntityRepository
             )
             ->join('advert.category', 'category')
             ->orderBy('advert.updatedAt', 'DESC');
+    }
+
+    /**
+     * Save entity.
+     *
+     * @param Advert $advert Advert entity
+     */
+    public function save(Advert $advert): void
+    {
+        assert($this->_em instanceof EntityManager);
+        $this->_em->persist($advert);
+        $this->_em->flush();
+    }
+
+    /**
+     * Delete entity.
+     *
+     * @param Advert $advert Advert entity
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function delete(Advert $advert): void
+    {
+        assert($this->_em instanceof EntityManager);
+        $this->_em->remove($advert);
+        $this->_em->flush();
+
     }
 
     /**

@@ -20,7 +20,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'category.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'category.title') }}</th>
                 {#<th>{{ knp_pagination_sortable(pagination, 'label.tags', 'category.tags') }}</th>#}
-                <th>{{ 'category.tags' }}</th>
+                {#<th>{{ 'category.tags' }}</th>#}
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
@@ -32,11 +32,11 @@
                     <td>{{ category.updatedAt|date('Y/m/d') }}</td>
                     <td>{{ category.title }}</td>
 
-                    <td>
+                    {# <td>
                         {% for tag in category.tags %}
                             {{ tag.title }}{%  if not loop.last %},{% endif %}
                         {% endfor %}
-                    </td>
+                    </td> #}
 
                     <td>
                         <a href="{{ url('category_show', {id: category.id}) }}" title="{{ 'action.show'|trans }}">

@@ -1,6 +1,6 @@
 <?php
 /**
- * Category type.
+ * Advert type.
  */
 
 namespace App\Form\Type;
@@ -8,19 +8,27 @@ namespace App\Form\Type;
 use App\Entity\Category;
 use App\Entity\Advert;
 use App\Entity\Tag;
+use App\Repository\CategoryRepository;
 use App\Form\DataTransformer\TagsDataTransformer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Repository\AdvertRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class CategoryType.
+ * Class AdvertType.
  */
-class CategoryType extends AbstractType
+class AdvertType extends AbstractType
 {
-  /*  public function __construct(private readonly TagsDataTransformer $tagsDataTransformer)
+    /**
+     * Constructor.
+     *
+     * @param TagsDataTransformer $tagsDataTransformer Tags data transformer
+     */
+    public function __construct(private readonly TagsDataTransformer $tagsDataTransformer)
     {
     }
 
@@ -45,6 +53,33 @@ class CategoryType extends AbstractType
                 'required' => true,
                 'attr' => ['max_length' => 64],
             ]);
+
+        $builder->add(
+            'category',
+            EntityType::class,
+            [
+                'class' => Category::class,
+                'choice_label' => function ($category): string{
+                return $category->getTitle();
+                },
+                'required' => true,
+                'label' => 'label.category',
+            ]);
+
+
+        $builder->add(
+            'tags',
+            TextType::class,
+            [
+                'label' => 'label.tags',
+                'required' => false,
+                'attr' => ['max_length' => 64],
+            ]
+        );
+
+        $builder->get('tags')->addModelTransformer(
+            $this->tagsDataTransformer
+        );
     }
 
     /**
@@ -54,7 +89,7 @@ class CategoryType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['data_class' => Category::class]);
+        $resolver->setDefaults(['data_class' => Advert::class]);
     }
 
     /**
@@ -67,6 +102,6 @@ class CategoryType extends AbstractType
      */
     public function getBlockPrefix(): string
     {
-        return 'category';
+        return 'advert';
     }
 }

@@ -72,15 +72,8 @@ class Category
     #[Gedmo\Slug(fields: ['title'])]
     private ?string $slug;
 
-    /**
-     * @var Collection<int, Tag>
-     */
-    /**
-     * Tags.
-     *
-     * @var ArrayCollection<int, Tag>
-     */
-    #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+
+   /* #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     #[ORM\JoinTable(name: 'adverts_tags')]
     private Collection $tags;
 
@@ -88,7 +81,7 @@ class Category
     {
         $this->tags = new ArrayCollection();
     }
-
+*/
     /**
      * Getter for Id.
      *
@@ -173,27 +166,24 @@ class Category
         return $this;
     }
 
-    /**
-     * @return Collection<int, Tag>
-     */
-    public function getTags(): Collection
-    {
-        return $this->tags;
-    }
+    /*    public function getTags(): Collection
+     {
+         return $this->tags;
+     }
 
-    public function addTag(Tag $tag): static
-    {
-        if (!$this->tags->contains($tag)) {
-            $this->tags->add($tag);
-        }
+     public function addTag(Tag $tag): static
+     {
+         if (!$this->tags->contains($tag)) {
+             $this->tags->add($tag);
+         }
 
-        return $this;
-    }
+         return $this;
+     }
 
-    public function removeTag(Tag $tag): static
-    {
-        $this->tags->removeElement($tag);
+     public function removeTag(Tag $tag): static
+     {
+         $this->tags->removeElement($tag);
 
-        return $this;
-    }
+         return $this;
+    }*/
 }
