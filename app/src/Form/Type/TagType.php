@@ -39,15 +39,7 @@ class TagType extends AbstractType
                 'label' => 'label.title',
                 'required' => true,
                 'attr' => ['max_length' => 64],
-            ]);
-
-        $builder->add(
-            'title',
-            TextType::class,
-            [
-                'label' => 'label.title',
-                'required' => true,
-                'attr' => ['max_length' => 64],
+                'trim' => true,
             ]);
     }
 

@@ -19,6 +19,7 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'category.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'category.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'category.title') }}</th>
+                {#<th>{{ knp_pagination_sortable(pagination, 'label.tags', 'category.tags') }}</th>#}
                 <th>{{ 'category.tags' }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
@@ -55,13 +56,14 @@
             </tbody>
         </table>
 
-        <div class="navigation text-center">
-            {{ knp_pagination_render(pagination) }}
-        </div>
-
         <a href="{{ url('category_create') }}" title="{{ 'action.create'|trans }}">
             {{ 'action.create'|trans }}
         </a>
+        <br><br>
+
+        <div class="navigation text-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
 
     {% else %}
         <p>
