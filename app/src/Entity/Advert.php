@@ -36,6 +36,14 @@ class Advert
     private ?int $id = null;
 
     /**
+     * Content.
+     *
+     * @var int|!null
+     */
+    #[ORM\Column(type: 'text')]
+    private ?string $content = null;
+
+    /**
      * Created at.
      *
      * @var DateTimeImmutable|null
@@ -74,6 +82,9 @@ class Advert
      */
     #[ORM\ManyToMany(targetEntity: Tag::class)]
     private Collection $tags;
+
+    #[ORM\ManyToOne]
+    private ?User $author = null;
 
     public function __construct()
     {
@@ -184,5 +195,27 @@ class Advert
         $this->tags->removeElement($tag);
 
         return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): void
+    {
+        $this->content = $content;
     }
 }

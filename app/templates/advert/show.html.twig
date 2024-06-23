@@ -16,6 +16,10 @@
             <dd>{{ advert.updatedAt|date('Y/m/d') }}</dd>
             <dt>{{ 'label.title'|trans }}</dt>
             <dd>{{  advert.title }}</dd>
+            <dt>{{ 'label.author'|trans }}</dt>
+            <dd>{{  advert.author.email }}</dd>
+            <dt>{{ 'label.content'|trans }}</dt>
+            <dd>{{  advert.content }}</dd>
         </dl>
         <p>
             <a href="{{ url('advert_index') }}" title="{{ 'action.back_to_list'|trans }}">

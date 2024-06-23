@@ -19,8 +19,9 @@
                 <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'advert.createdAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'advert.updatedAt') }}</th>
                 <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'advert.title') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label_category'|trans, 'category.title') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.category'|trans, 'category.title') }}</th>
                 {#<th>{{ knp_pagination_sortable(pagination, 'label.tags', 'category.tags') }}</th>#}
+                <th>{{ knp_pagination_sortable(pagination, 'label.author'|trans, 'advert.author') }}</th>
                 <th>{{ 'category.tags' }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
@@ -33,6 +34,7 @@
                     <td>{{ advert.updatedAt|date('Y/m/d') }}</td>
                     <td>{{ advert.title }}</td>
                     <td>{{ advert.category.title }}</td>
+                    <td>{{ advert.author.email }}</td>
 
                     <td>
                         {% for tag in advert.tags %}
@@ -41,17 +43,33 @@
                     </td>
 
                     <td>
-                        <a href="{{ url('advert_show', {id: advert.id}) }}" title="{{ 'action.show'|trans }}">
+                        <a class="btn btn-outline-primary" href="{{ url('advert_show', {id: advert.id}) }}" title="{{ 'action.show'|trans }}">
                             {{ 'action.show'|trans }}
                         </a>
 
-                        <a href="{{ url('advert_edit', {id: advert.id}) }}" title="{{ 'action.edit'|trans }}">
+                        {% if is_granted('VIEW', advert) %}
+                        <a class="btn btn-outline-success" href="{{ url('advert_edit', {id: advert.id}) }}" title="{{ 'action.edit'|trans }}">
                             {{ 'action.edit'|trans }}
                         </a>
+                        {% endif %}
 
-                        <a href="{{ url('advert_delete', {id: advert.id}) }}" title="{{ 'action.delete'|trans }}">
+                        {% if is_granted('VIEW', advert) %}
+                        <a class="btn btn-outline-danger" href="{{ url('advert_delete', {id: advert.id}) }}" title="{{ 'action.delete'|trans }}">
                             {{ 'action.delete'|trans }}
                         </a>
+                        {% endif %}
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="btn btn-outline-success" href="{{ url('advert_edit', {id: advert.id}) }}" title="{{ 'action.edit'|trans }}">
+                                {{ 'action.edit'|trans }}
+                            </a>
+                        {% endif %}
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="btn btn-outline-danger" href="{{ url('advert_delete', {id: advert.id}) }}" title="{{ 'action.delete'|trans }}">
+                                {{ 'action.delete'|trans }}
+                            </a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}

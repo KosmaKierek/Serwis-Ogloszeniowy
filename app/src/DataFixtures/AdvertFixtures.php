@@ -10,7 +10,10 @@ use App\Entity\Enum\AdvertStatus;
 use App\Entity\Tag;
 use App\Entity\Advert;
 use App\Entity\User;
+use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Faker\Generator;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class AdvertFixtures.
@@ -33,6 +36,7 @@ class AdvertFixtures extends AbstractBaseFixtures implements DependentFixtureInt
         $this->createMany(100, 'adverts', function (int $i) {
             $advert = new Advert();
             $advert->setTitle($this->faker->sentence);
+            $advert->setContent($this->faker->realText);
             $advert->setCreatedAt(
                 \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
@@ -52,6 +56,11 @@ class AdvertFixtures extends AbstractBaseFixtures implements DependentFixtureInt
                 $tag = $this->getRandomReference('tags');
                 $advert->addTag($tag);
             }
+
+            /** @var User $author */
+            $author = $this->getRandomReference('users');
+            $advert->setAuthor($author);
+
             return $advert;
         });
 

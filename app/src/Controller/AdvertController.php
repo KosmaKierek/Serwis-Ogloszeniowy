@@ -7,6 +7,7 @@ namespace App\Controller;
 
 use App\Entity\Advert;
 use App\Entity\Category;
+use App\Entity\User;
 use App\Form\Type\AdvertType;
 use App\Service\AdvertService;
 use App\Service\AdvertServiceInterface;
@@ -52,16 +53,12 @@ class AdvertController extends AbstractController
     /**
      * Show action.
      *
-     * @param Advert $advert Advert
+     * @param Advert $advert Advert entity
      *
      * @return Response HTTP response
      */
-    #[Route(
-        '/{id}',
-        name: 'advert_show',
-        requirements: ['id' => '[1-9]\d*'],
-        methods: 'GET'
-    )]
+    #[Route('/{id}', name: 'advert_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET', )]
+    #[IsGranted('VIEW', subject: 'advert')]
     public function show(Advert $advert): Response
     {
         return $this->render('advert/show.html.twig', ['advert' => $advert]);
@@ -81,8 +78,12 @@ class AdvertController extends AbstractController
     )]
     public function create(Request $request): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
         $advert = new Advert();
-        $form = $this->createForm(AdvertType::class, $advert);
+        $advert->setAuthor($user);
+        $form = $this->createForm(AdvertType::class, $advert,
+        ['action' => $this->generateUrl('advert_create')]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -111,6 +112,7 @@ class AdvertController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'advert_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[IsGranted('VIEW', subject: 'advert')]
     public function edit(Request $request, Advert $advert): Response
     {
         $form = $this->createForm(
@@ -152,6 +154,7 @@ class AdvertController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'advert_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[IsGranted('VIEW', subject: 'advert')]
     public function delete(Request $request, Advert $advert): Response
     {
         $form = $this->createForm(
