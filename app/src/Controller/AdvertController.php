@@ -115,6 +115,13 @@ class AdvertController extends AbstractController
     #[IsGranted('VIEW', subject: 'advert')]
     public function edit(Request $request, Advert $advert): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash(
+                'danger',
+                $this->translator->trans('message.not_allowed')
+            );
+            return $this->redirectToRoute('advert_index');
+        }
         $form = $this->createForm(
             AdvertType::class,
             $advert,
@@ -157,6 +164,13 @@ class AdvertController extends AbstractController
     #[IsGranted('VIEW', subject: 'advert')]
     public function delete(Request $request, Advert $advert): Response
     {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash(
+                'danger',
+                $this->translator->trans('message.not_allowed')
+            );
+            return $this->redirectToRoute('advert_index');
+        }
         $form = $this->createForm(
             FormType::class,
             $advert,

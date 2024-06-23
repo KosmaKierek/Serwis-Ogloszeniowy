@@ -33,5 +33,10 @@
     <button class="btn btn-lg btn-primary" type="submit">
         Sign in
     </button>
+
+    <a class="btn btn-primary" href="{{ url('register') }}"
+       title="{{ 'action.register'|trans }}">
+        {{ 'action.register'|trans }}
+    </a>
 </form>
 {% endblock %}

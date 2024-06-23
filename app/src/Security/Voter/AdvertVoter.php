@@ -69,6 +69,11 @@ class AdvertVoter extends Voter
         if (!$subject instanceof Advert) {
             return false;
         }
+        if (!$token->getUser() instanceof UserInterface) {
+            // the user is not authenticated, e.g. only allow them to
+            // see public posts
+            return $subject->isPublic();
+        }
 
         return match ($attribute) {
             self::EDIT => $this->canEdit($subject, $user),
