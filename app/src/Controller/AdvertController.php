@@ -6,6 +6,7 @@
 namespace App\Controller;
 
 use App\Entity\Advert;
+use App\Security\Voter\AdvertVoter;
 use App\Entity\Category;
 use App\Entity\User;
 use App\Form\Type\AdvertType;
@@ -19,6 +20,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class AdvertController.
@@ -58,7 +62,6 @@ class AdvertController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}', name: 'advert_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET', )]
-    #[IsGranted('VIEW', subject: 'advert')]
     public function show(Advert $advert): Response
     {
         return $this->render('advert/show.html.twig', ['advert' => $advert]);
@@ -112,16 +115,23 @@ class AdvertController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'advert_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
-    #[IsGranted('VIEW', subject: 'advert')]
     public function edit(Request $request, Advert $advert): Response
     {
-        if (!$this->isGranted('ROLE_ADMIN')) {
+       if(!$this->isGranted('ROLE_USER')){
             $this->addFlash(
                 'danger',
                 $this->translator->trans('message.not_allowed')
             );
-            return $this->redirectToRoute('advert_index');
+            $this->redirectToRoute('advert_index');
         }
+
+        //if (!$this->isGranted('ROLE_ADMIN')) {
+            //$this->addFlash(
+                //'danger',
+                //$this->translator->trans('message.not_allowed')
+            //);
+            // $this->redirectToRoute('advert_index');
+        //}
         $form = $this->createForm(
             AdvertType::class,
             $advert,
@@ -161,16 +171,22 @@ class AdvertController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'advert_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
-    #[IsGranted('VIEW', subject: 'advert')]
     public function delete(Request $request, Advert $advert): Response
     {
-        if (!$this->isGranted('ROLE_ADMIN')) {
+        if(!$this->isGranted('ROLE_USER')){
             $this->addFlash(
                 'danger',
                 $this->translator->trans('message.not_allowed')
             );
-            return $this->redirectToRoute('advert_index');
+            $this->redirectToRoute('advert_index');
         }
+        //if (!$this->isGranted('ROLE_ADMIN')) {
+            //->addFlash(
+                //'danger',
+                //$this->translator->trans('message.not_allowed')
+            //);
+            //return $this->redirectToRoute('advert_index');
+        //}
         $form = $this->createForm(
             FormType::class,
             $advert,

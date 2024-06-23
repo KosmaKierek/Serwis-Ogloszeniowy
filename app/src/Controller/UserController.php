@@ -25,12 +25,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class UserController extends AbstractController
 {
     /**
-     * Constructor.
-     *
-     * @param UserServiceInterface $userService User service
-     * @param TranslatorInterface  $translator  Translator
+     * @param UserServiceInterface        $userService    User service
+     * @param TranslatorInterface         $translator     Translator
+     * @param UserPasswordHasherInterface $passwordHasher Password hasher
      */
-    public function __construct(private readonly UserServiceInterface $userService, private readonly TranslatorInterface $translator)
+    public function __construct(private readonly UserServiceInterface $userService, private readonly TranslatorInterface $translator, private readonly UserPasswordHasherInterface $passwordHasher)
     {
     }
 

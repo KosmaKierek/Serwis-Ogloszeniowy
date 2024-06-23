@@ -64,7 +64,7 @@ class AdvertRepository extends ServiceEntityRepository
                 'partial category.{id, title}'
             )
             ->join('advert.category', 'category')
-            ->orderBy('advert.updatedAt', 'DESC');
+            ->orderBy('advert.createdAt', 'DESC');
     }
 
     /**
