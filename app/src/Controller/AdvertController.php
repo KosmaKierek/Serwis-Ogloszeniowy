@@ -23,6 +23,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Class AdvertController.
@@ -115,14 +116,16 @@ class AdvertController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'advert_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    //#[IsGranted('EDIT', subject: 'advert')]
     public function edit(Request $request, Advert $advert): Response
     {
-       if(!$this->isGranted('ROLE_USER')){
+        if (!$this->isGranted('ROLE_USER')) {
             $this->addFlash(
                 'danger',
                 $this->translator->trans('message.not_allowed')
             );
-            $this->redirectToRoute('advert_index');
+
+            return $this->redirectToRoute('app_login');
         }
 
         //if (!$this->isGranted('ROLE_ADMIN')) {
@@ -171,14 +174,16 @@ class AdvertController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'advert_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[IsGranted('DELETE', subject: 'advert')]
     public function delete(Request $request, Advert $advert): Response
     {
-        if(!$this->isGranted('ROLE_USER')){
+        if (!$this->isGranted('ROLE_USER')) {
             $this->addFlash(
                 'danger',
                 $this->translator->trans('message.not_allowed')
             );
-            $this->redirectToRoute('advert_index');
+
+            return $this->redirectToRoute('app_login');
         }
         //if (!$this->isGranted('ROLE_ADMIN')) {
             //->addFlash(

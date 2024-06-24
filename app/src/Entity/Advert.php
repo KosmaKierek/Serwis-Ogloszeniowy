@@ -84,11 +84,16 @@ class Advert
     #[ORM\ManyToMany(targetEntity: Tag::class)]
     private Collection $tags;
 
-    #[ORM\ManyToOne]
-    private ?User $author = null;
-
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $comment = null;
+    /**
+     * Author.
+     *
+     * @var User|null
+     */
+    #[ORM\ManyToOne(targetEntity: User::class, fetch: 'EXTRA_LAZY')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank]
+    #[Assert\Type(User::class)]
+    private ?User $author;
 
     public function __construct()
     {

@@ -47,28 +47,16 @@
                             {{ 'action.show'|trans }}
                         </a>
 
-                        {% if is_granted('VIEW', advert) %}
+                        {% if is_granted('EDIT', advert) %}
                         <a class="btn btn-outline-success" href="{{ url('advert_edit', {id: advert.id}) }}" title="{{ 'action.edit'|trans }}">
                             {{ 'action.edit'|trans }}
                         </a>
                         {% endif %}
 
-                        {% if is_granted('VIEW', advert) %}
+                        {% if is_granted('DELETE', advert) %}
                         <a class="btn btn-outline-danger" href="{{ url('advert_delete', {id: advert.id}) }}" title="{{ 'action.delete'|trans }}">
                             {{ 'action.delete'|trans }}
                         </a>
-                        {% endif %}
-
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <a class="btn btn-outline-success" href="{{ url('advert_edit', {id: advert.id}) }}" title="{{ 'action.edit'|trans }}">
-                                {{ 'action.edit'|trans }}
-                            </a>
-                        {% endif %}
-
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <a class="btn btn-outline-danger" href="{{ url('advert_delete', {id: advert.id}) }}" title="{{ 'action.delete'|trans }}">
-                                {{ 'action.delete'|trans }}
-                            </a>
                         {% endif %}
                     </td>
                 </tr>

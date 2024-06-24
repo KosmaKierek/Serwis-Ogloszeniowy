@@ -9,12 +9,18 @@ use App\Entity\Advert;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * Class AdvertVoter.
  */
 class AdvertVoter extends Voter
 {
+    public function __construct(
+        private Security $security,
+    ) {
+    }
+
     /**
      * Edit permission.
      *
@@ -69,11 +75,9 @@ class AdvertVoter extends Voter
         if (!$subject instanceof Advert) {
             return false;
         }
-        //if (!$token->getUser() instanceof UserInterface) {
-            //the user is not authenticated, e.g. only allow them to
-            //see public posts
-            //return $subject->isPublic();
-        //}
+        if ($this->security->isGranted('ROLE_ADMIN')) {
+            return true;
+        }
 
         return match ($attribute) {
             self::EDIT => $this->canEdit($subject, $user),
@@ -84,9 +88,9 @@ class AdvertVoter extends Voter
     }
 
     /**
-     * Checks if user can edit advert.
+     * Checks if user can edit task.
      *
-     * @param Advert          $advert Advert entity
+     * @param Advert        $advert Advert entity
      * @param UserInterface $user User
      *
      * @return bool Result
@@ -97,9 +101,9 @@ class AdvertVoter extends Voter
     }
 
     /**
-     * Checks if user can view advert.
+     * Checks if user can view task.
      *
-     * @param Advert          $advert Advert entity
+     * @param Advert        $advert Advert entity
      * @param UserInterface $user User
      *
      * @return bool Result
@@ -110,9 +114,9 @@ class AdvertVoter extends Voter
     }
 
     /**
-     * Checks if user can delete advert.
+     * Checks if user can delete task.
      *
-     * @param Advert          $advert Advert entity
+     * @param Advert        $advert Advert entity
      * @param UserInterface $user User
      *
      * @return bool Result
