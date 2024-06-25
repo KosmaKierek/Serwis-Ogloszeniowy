@@ -29,15 +29,15 @@ interface AdvertServiceInterface
      */
     public function getPaginatedList(int $page): PaginationInterface;
 
-    /**
-     * Get new paginated list.
-     *
-     * @param int $page Page number
-     * @param AdvertListInputFiltersDto $filters Filters
-     *
-     * @return PaginationInterface<SlidingPagination> Paginated list
-     */
-    public function getNewPaginatedList(int $page, AdvertListInputFiltersDto $filters): PaginationInterface;
+  //  /**
+   //  * Get new paginated list.
+   //  *
+   //  * @param int $page Page number
+   //  * @param AdvertListInputFiltersDto $filters Filters
+    // *
+   //  * @return PaginationInterface<SlidingPagination> Paginated list
+   //  */
+   // public function getNewPaginatedList(int $page, AdvertListInputFiltersDto $filters): PaginationInterface;
 
 
     /**

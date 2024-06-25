@@ -72,39 +72,39 @@ class AdvertRepository extends ServiceEntityRepository
             ->orderBy('advert.createdAt', 'DESC');
     }
 
-    /**
-     * Query all category records.
-     *
-     * @param AdvertListFiltersDto $filters Filters
-     *
-     * @return QueryBuilder Query builder
-     */
-    public function queryAllCategory(AdvertListFiltersDto $filters): QueryBuilder
-    {
-        $queryBuilder = $this->getOrCreateQueryBuilder()
-            ->select(
-                'partial advert.{id, createdAt, updatedAt, title}',
-                'partial category.{id, title}',
-                'partial tags.{id, title}'
-            )
-            ->join('advert.category', 'category')
-            ->leftJoin('advert.tags', 'tags')
-            ->orderBy('advert.updatedAt', 'DESC');
-
-        return $this->applyFiltersToList($queryBuilder, $filters);
-    }
-    /**
-     * Query adverts by category.
-     *
-     * @param AdvertListFiltersDto $filters Filters
-     *
-     * @return QueryBuilder Query builder
-     */
-    public function queryByCategory(AdvertListFiltersDto $filters): QueryBuilder
-    {
-        $queryBuilder = $this->queryAllCategory($filters);
-        return $this->applyFiltersToList($queryBuilder, $filters);
-    }
+    ///**
+   //  * Query all category records.
+   //  *
+   //  * @param AdvertListFiltersDto $filters Filters
+   //  *
+   //  * @return QueryBuilder Query builder
+    // */
+  //  public function queryAllCategory(AdvertListFiltersDto $filters): QueryBuilder
+  //  {
+   //     $queryBuilder = $this->getOrCreateQueryBuilder()
+    //        ->select(
+   //             'partial advert.{id, createdAt, updatedAt, title}',
+   //             'partial category.{id, title}',
+   //             'partial tags.{id, title}'
+   //         )
+   //         ->join('advert.category', 'category')
+    //        ->leftJoin('advert.tags', 'tags')
+    //        ->orderBy('advert.updatedAt', 'DESC');
+//
+   //     return $this->applyFiltersToList($queryBuilder, $filters);
+  //  }
+   // /**
+   //  * Query adverts by category.
+   //  *
+  //   * @param AdvertListFiltersDto $filters Filters
+   //  *
+   //  * @return QueryBuilder Query builder
+   //  */
+   // public function queryByCategory(AdvertListFiltersDto $filters): QueryBuilder
+   // {
+    //    $queryBuilder = $this->queryAllCategory($filters);
+    //    return $this->applyFiltersToList($queryBuilder, $filters);
+   // }
 
     /**
      * Apply filters to paginated list.

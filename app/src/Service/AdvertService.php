@@ -44,37 +44,37 @@ class AdvertService implements AdvertServiceInterface
     {
     }
 
-    /**
-     * Prepare filters for the advert list.
-     *
-     * @param AdvertListInputFiltersDto $filters Raw filters from request
-     *
-     * @return AdvertListFiltersDto Result filters
-     */
-    private function prepareFilters(AdvertListInputFiltersDto $filters): AdvertListFiltersDto
-    {
-        return new AdvertListFiltersDto(
-            null !== $filters->categoryId ? $this->categoryService->findOneById($filters->categoryId) : null,
-        );
-    }
+   // /**
+   //  * Prepare filters for the advert list.
+   //  *
+    // * @param AdvertListInputFiltersDto $filters Raw filters from request
+    // *
+    // * @return AdvertListFiltersDto Result filters
+    // */
+  //  private function prepareFilters(AdvertListInputFiltersDto $filters): AdvertListFiltersDto
+   // {
+     //   return new AdvertListFiltersDto(
+     //       null !== $filters->categoryId ? $this->categoryService->findOneById($filters->categoryId) : null,
+     //   );
+   // }
 
-    /**
-     * Get new paginated list.
-     *
-     * @param int $page Page number
-     * @param AdvertListInputFiltersDto $filters Filters
-     *
-     * @return PaginationInterface<SlidingPagination> Paginated list
-     */
-    public function getNewPaginatedList(int $page, AdvertListInputFiltersDto $filters): PaginationInterface
-    {
-        $filters = $this->prepareFilters($filters);
-        return $this->paginator->paginate(
-            $this->advertRepository->queryByCategory($filters),
-            $page,
-            self::PAGINATOR_ITEMS_PER_PAGE
-        );
-    }
+   // /**
+    // * Get new paginated list.
+    // *
+   //  * @param int $page Page number
+   //  * @param AdvertListInputFiltersDto $filters Filters
+   //  *
+   //  * @return PaginationInterface<SlidingPagination> Paginated list
+    // */
+  //  public function getNewPaginatedList(int $page, AdvertListInputFiltersDto $filters): PaginationInterface
+  //  {
+   //     $filters = $this->prepareFilters($filters);
+    //    return $this->paginator->paginate(
+    //        $this->advertRepository->queryByCategory($filters),
+     //       $page,
+     //       self::PAGINATOR_ITEMS_PER_PAGE
+      //  );
+   // }
 
     /**
      * Get paginated list.

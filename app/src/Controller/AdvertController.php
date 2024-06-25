@@ -71,18 +71,19 @@ class AdvertController extends AbstractController
         return $this->render('advert/show.html.twig', ['advert' => $advert]);
     }
 
-    /**
-     * Show by category action.
-     *
-     * @param Advert $advert Advert entity
-     *
-     * @return Response HTTP response
-     */
-    #[Route('/category/{id}', name: 'advert.category_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET', )]
-    public function showCategory(Advert $advert): Response
-    {
-        return $this->render('advert/category/show.html.twig', ['advert' => $advert]);
-    }
+    ///**
+    // * Show by category action.
+    // *
+   //  * @param Advert $advert Advert entity
+    // *
+   //  * @return Response HTTP response
+    // */
+    //#[Route('/category/{id}', name: 'advert.category_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET', )]
+    //public function showCategory(Advert $advert): Response
+    //{
+        //return $this->render('advert/category/show.html.twig', ['advert' => $advert]);
+    //}
+
 
     /**
      * Create action.

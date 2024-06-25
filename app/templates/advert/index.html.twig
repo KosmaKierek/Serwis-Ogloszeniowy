@@ -33,25 +33,13 @@
                     <td>{{ advert.createdAt|date('Y/m/d') }}</td>
                     <td>{{ advert.updatedAt|date('Y/m/d') }}</td>
                     <td>{{ advert.title }}</td>
-                    <td><a class="btn btn-outline-primary"
-                           href="{{ url('advert.category_show', {id : advert.category.id}) }}"
-                           title="{{ advert.category.title }}">
-                            {{ advert.category.title }}
-                        </a></td>
+                    <td>{{ advert.category.title }}</td>
                     <td>{{ advert.author.email }}</td>
-
                     <td>
-                        {% if advert.tags is defined and advert.tags|length %}
-                            {% for tag in advert.tags %}
-                                <a class="btn btn-outline-primary"
-                                   href="{{ url('advert_index', {'tagId' : tag.id}) }}"
-                                   title="{{ tag.title }}">
-                                    {{ tag.title }}
-                                </a>
-                            {% endfor %}
-                        {% else %}
-                            &nbsp;
-                        {% endif %}
+                        {% for tag in advert.tags %}
+                                {{ tag.title }}<br>{% if not loop.last %}
+                            {% endif %}
+                        {% endfor %}
                     </td>
 
                     <td>
@@ -77,7 +65,7 @@
         </table>
 
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <a href="{{ url('advert_create') }}" title="{{ 'action.create'|trans }}">
+            <a class="btn btn-primary" href="{{ url('advert_create') }}" title="{{ 'action.create'|trans }}">
             {{ 'action.create'|trans }}
         {% endif %}
         </a>

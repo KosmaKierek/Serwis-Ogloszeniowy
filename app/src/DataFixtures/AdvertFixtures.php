@@ -6,7 +6,6 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
-use App\Entity\Enum\AdvertStatus;
 use App\Entity\Tag;
 use App\Entity\Advert;
 use App\Entity\User;
