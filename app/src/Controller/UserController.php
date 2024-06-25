@@ -105,7 +105,7 @@ class UserController extends AbstractController
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
-        $newPassword = $form->get('password')->getData(); $newPassword = $form->get('password')->getData();
+        $newPassword = $form->get('password')->getData();
 
         $user->setPassword($this->passwordHasher->hashPassword($user, $newPassword));
         $this->userService->save($user);
@@ -143,7 +143,7 @@ class UserController extends AbstractController
             'danger',
             $this->translator->trans('message.not_allowed')
         );
-        return $this->redirectToRoute('advert_index');
+        return $this->redirectToRoute('user_index');
     }
     $form = $this->createForm(
         FormType::class,

@@ -48,15 +48,15 @@
                         </a>
 
                         {% if is_granted('EDIT', advert) %}
-                        <a class="btn btn-outline-success" href="{{ url('advert_edit', {id: advert.id}) }}" title="{{ 'action.edit'|trans }}">
-                            {{ 'action.edit'|trans }}
-                        </a>
+                            <a class="btn btn-outline-success" href="{{ url('advert_edit', {id: advert.id}) }}" title="{{ 'action.edit'|trans }}">
+                                {{ 'action.edit'|trans }}
+                            </a>
                         {% endif %}
 
                         {% if is_granted('DELETE', advert) %}
-                        <a class="btn btn-outline-danger" href="{{ url('advert_delete', {id: advert.id}) }}" title="{{ 'action.delete'|trans }}">
-                            {{ 'action.delete'|trans }}
-                        </a>
+                            <a class="btn btn-outline-danger" href="{{ url('advert_delete', {id: advert.id}) }}" title="{{ 'action.delete'|trans }}">
+                                {{ 'action.delete'|trans }}
+                            </a>
                         {% endif %}
                     </td>
                 </tr>
@@ -65,7 +65,7 @@
         </table>
 
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-        <a href="{{ url('advert_create') }}" title="{{ 'action.create'|trans }}">
+            <a href="{{ url('advert_create') }}" title="{{ 'action.create'|trans }}">
             {{ 'action.create'|trans }}
         {% endif %}
         </a>

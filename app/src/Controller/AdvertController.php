@@ -116,7 +116,7 @@ class AdvertController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'advert_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
-    //#[IsGranted('EDIT', subject: 'advert')]
+    #[IsGranted('EDIT', subject: 'advert')]
     public function edit(Request $request, Advert $advert): Response
     {
         if (!$this->isGranted('ROLE_USER')) {

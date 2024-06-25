@@ -12,13 +12,22 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class TagType.
  */
 class TagType extends AbstractType
 {
+    /** Constructor.
+     *
+     * @param TranslatorInterface $translator Translator
+     */
+    public function __construct(private readonly TranslatorInterface $translator)
+    {
+    }
     /**
      * Builds the form.
      *
@@ -38,8 +47,13 @@ class TagType extends AbstractType
             [
                 'label' => 'label.title',
                 'required' => true,
-                'attr' => ['max_length' => 64],
-                'trim' => true,
+                'attr' => ['min_length' => 1, 'max_length' => 64],
+                'constraints' => [
+                    new Assert\Regex([
+                        'pattern' => '/^[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$/',
+                        'message' => $this->translator->trans('label.invalid_tags'),
+                    ]),
+                ]
             ]);
     }
 
