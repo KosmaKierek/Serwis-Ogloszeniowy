@@ -94,5 +94,9 @@ class CategoryRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
+    public function findOneById(int $id)
+    {
+    }
+
 
 }

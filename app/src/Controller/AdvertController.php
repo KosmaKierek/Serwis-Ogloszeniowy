@@ -5,7 +5,9 @@
 
 namespace App\Controller;
 
+use App\Dto\AdvertListInputFiltersDto;
 use App\Entity\Advert;
+use App\Resolver\AdvertListInputFiltersDtoResolver;
 use App\Security\Voter\AdvertVoter;
 use App\Entity\Category;
 use App\Entity\User;
@@ -18,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
+use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -69,6 +72,19 @@ class AdvertController extends AbstractController
     }
 
     /**
+     * Show by category action.
+     *
+     * @param Advert $advert Advert entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route('/category/{id}', name: 'advert.category_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET', )]
+    public function showCategory(Advert $advert): Response
+    {
+        return $this->render('advert/category/show.html.twig', ['advert' => $advert]);
+    }
+
+    /**
      * Create action.
      *
      * @param Request $request HTTP request
@@ -87,7 +103,7 @@ class AdvertController extends AbstractController
         $advert = new Advert();
         $advert->setAuthor($user);
         $form = $this->createForm(AdvertType::class, $advert,
-        ['action' => $this->generateUrl('advert_create')]);
+            ['action' => $this->generateUrl('advert_create')]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -129,11 +145,11 @@ class AdvertController extends AbstractController
         }
 
         //if (!$this->isGranted('ROLE_ADMIN')) {
-            //$this->addFlash(
-                //'danger',
-                //$this->translator->trans('message.not_allowed')
-            //);
-            // $this->redirectToRoute('advert_index');
+        //$this->addFlash(
+        //'danger',
+        //$this->translator->trans('message.not_allowed')
+        //);
+        // $this->redirectToRoute('advert_index');
         //}
         $form = $this->createForm(
             AdvertType::class,
@@ -186,11 +202,11 @@ class AdvertController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
         //if (!$this->isGranted('ROLE_ADMIN')) {
-            //->addFlash(
-                //'danger',
-                //$this->translator->trans('message.not_allowed')
-            //);
-            //return $this->redirectToRoute('advert_index');
+        //->addFlash(
+        //'danger',
+        //$this->translator->trans('message.not_allowed')
+        //);
+        //return $this->redirectToRoute('advert_index');
         //}
         $form = $this->createForm(
             FormType::class,

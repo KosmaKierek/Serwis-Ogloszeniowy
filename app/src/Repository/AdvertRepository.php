@@ -5,6 +5,7 @@
 
 namespace App\Repository;
 
+use App\Dto\AdvertListFiltersDto;
 use App\Entity\Category;
 use App\Entity\Advert;
 use App\Entity\Tag;
@@ -16,6 +17,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class AdvertRepository.
@@ -63,11 +65,63 @@ class AdvertRepository extends ServiceEntityRepository
             ->select(
                 'partial advert.{id, createdAt, updatedAt, title}',
                 'partial category.{id, title}',
-                //'partial tags.{id, title}'
+            //'partial tags.{id, title}'
             )
             ->join('advert.category', 'category')
             //->join('advert.tags', 'tags')
             ->orderBy('advert.createdAt', 'DESC');
+    }
+
+    /**
+     * Query all category records.
+     *
+     * @param AdvertListFiltersDto $filters Filters
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryAllCategory(AdvertListFiltersDto $filters): QueryBuilder
+    {
+        $queryBuilder = $this->getOrCreateQueryBuilder()
+            ->select(
+                'partial advert.{id, createdAt, updatedAt, title}',
+                'partial category.{id, title}',
+                'partial tags.{id, title}'
+            )
+            ->join('advert.category', 'category')
+            ->leftJoin('advert.tags', 'tags')
+            ->orderBy('advert.updatedAt', 'DESC');
+
+        return $this->applyFiltersToList($queryBuilder, $filters);
+    }
+    /**
+     * Query adverts by category.
+     *
+     * @param AdvertListFiltersDto $filters Filters
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryByCategory(AdvertListFiltersDto $filters): QueryBuilder
+    {
+        $queryBuilder = $this->queryAllCategory($filters);
+        return $this->applyFiltersToList($queryBuilder, $filters);
+    }
+
+    /**
+     * Apply filters to paginated list.
+     *
+     * @param QueryBuilder       $queryBuilder Query builder
+     * @param AdvertListFiltersDto $filters      Filters
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function applyFiltersToList(QueryBuilder $queryBuilder, AdvertListFiltersDto $filters): QueryBuilder
+    {
+        if ($filters->category instanceof Category) {
+            $queryBuilder->andWhere('category = :category')
+                ->setParameter('category', $filters->category);
+        }
+
+        return $queryBuilder;
     }
 
     /**
