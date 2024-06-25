@@ -238,6 +238,27 @@
 <source>action_login</source>
 <target>Zaloguj się</target>
 </trans-unit>
+
+<trans-unit id="action.user_list">
+<source>action.user_list</source>
+<target>Lista użytkowników</target>
+</trans-unit>
+
+<trans-unit id="action.tag_list">
+<source>action.tag_list</source>
+<target>Lista tagów</target>
+</trans-unit>
+
+<trans-unit id="action.category_list">
+<source>action.category_list</source>
+<target>Lista kategorii</target>
+</trans-unit>
+
+<trans-unit id="title.registration">
+<source>title.registration</source>
+<target>Proszę się zarejestrować</target>
+</trans-unit>
+
 </body>
 </file>
 </xliff>

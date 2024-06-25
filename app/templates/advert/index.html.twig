@@ -80,4 +80,29 @@
             {{ 'message.empty_list'|trans }}
         </p>
     {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <p>
+            <a class="btn btn-outline-primary" href="{{ url('user_index') }}" title="{{ 'action.user_list'|trans }}">
+                {{ 'action.user_list'|trans }}
+            </a>
+        </p>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <p>
+            <a class="btn btn-outline-primary" href="{{ url('tag_index') }}" title="{{ 'action.tag_list'|trans }}">
+                {{ 'action.tag_list'|trans }}
+            </a>
+        </p>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <p>
+            <a class="btn btn-outline-primary" href="{{ url('category_index') }}" title="{{ 'action.category_list'|trans }}">
+                {{ 'action.category_list'|trans }}
+            </a>
+        </p>
+    {% endif %}
+
 {% endblock %}

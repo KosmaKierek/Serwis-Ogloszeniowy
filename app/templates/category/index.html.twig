@@ -77,4 +77,12 @@
             {{ 'action.create'|trans }}
         </a>
     {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <p>
+            <a class="btn btn-outline-primary" href="{{ url('advert_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
+            </a>
+        </p>
+    {% endif %}
 {% endblock %}
