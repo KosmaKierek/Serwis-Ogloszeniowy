@@ -259,6 +259,11 @@
 <target>Proszę się zarejestrować</target>
 </trans-unit>
 
+<trans-unit id="label.invalid_tags">
+<source>label.invalid_tags</source>
+<target>Błąd tagów</target>
+</trans-unit>
+
 </body>
 </file>
 </xliff>

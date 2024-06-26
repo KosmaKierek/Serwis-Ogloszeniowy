@@ -128,6 +128,7 @@ class AdvertRepository extends ServiceEntityRepository
      * Save entity.
      *
      * @param Advert $advert Advert entity
+     * @throws \Doctrine\ORM\Exception\ORMException
      */
     public function save(Advert $advert): void
     {

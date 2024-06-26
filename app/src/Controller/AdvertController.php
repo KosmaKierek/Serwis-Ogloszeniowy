@@ -15,6 +15,7 @@ use App\Form\Type\AdvertType;
 use App\Service\AdvertService;
 use App\Service\AdvertServiceInterface;
 use App\Service\CategoryServiceInterface;
+use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -91,6 +92,7 @@ class AdvertController extends AbstractController
      * @param Request $request HTTP request
      *
      * @return Response HTTP response
+     * @throws ORMException
      */
     #[Route(
         '/create',
@@ -127,10 +129,11 @@ class AdvertController extends AbstractController
     /**
      * Edit action.
      *
-     * @param Request  $request  HTTP request
+     * @param Request $request HTTP request
      * @param Advert $advert Advert entity
      *
      * @return Response HTTP response
+     * @throws ORMException
      */
     #[Route('/{id}/edit', name: 'advert_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     #[IsGranted('EDIT', subject: 'advert')]

@@ -7,8 +7,10 @@ namespace App\Service;
 
 use App\Repository\CategoryRepository;
 use App\Repository\AdvertRepository;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\OptimisticLockException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use App\Entity\Category;
@@ -74,6 +76,7 @@ class CategoryService implements CategoryServiceInterface
      * Save entity.
      *
      * @param Category $category Category entity
+     * @throws ORMException
      */
     public function save(Category $category): void
     {
@@ -82,6 +85,10 @@ class CategoryService implements CategoryServiceInterface
     }
 
 
+    /**
+     * @throws OptimisticLockException
+     * @throws \Doctrine\ORM\ORMException
+     */
     public function delete(Category $category): void
     {
         $this->categoryRepository->delete($category);

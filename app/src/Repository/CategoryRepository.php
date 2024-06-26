@@ -72,6 +72,7 @@ class CategoryRepository extends ServiceEntityRepository
      * Save entity.
      *
      * @param Category $category Category entity
+     * @throws \Doctrine\ORM\Exception\ORMException
      */
     public function save(Category $category): void
     {
