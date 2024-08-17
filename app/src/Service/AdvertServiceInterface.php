@@ -7,6 +7,7 @@ namespace App\Service;
 
 use App\Dto\AdvertListInputFiltersDto;
 use App\Entity\Advert;
+use App\Entity\Category;
 use App\Entity\User;
 use App\Repository\AdvertRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -23,22 +24,12 @@ interface AdvertServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int                     $page    Page number
+     * @param AdvertListInputFiltersDto $filters Filters
      *
-     * @return PaginationInterface<string, mixed> Paginated list
+     * @return PaginationInterface<SlidingPagination> Paginated list
      */
-    public function getPaginatedList(int $page): PaginationInterface;
-
-  //  /**
-   //  * Get new paginated list.
-   //  *
-   //  * @param int $page Page number
-   //  * @param AdvertListInputFiltersDto $filters Filters
-    // *
-   //  * @return PaginationInterface<SlidingPagination> Paginated list
-   //  */
-   // public function getNewPaginatedList(int $page, AdvertListInputFiltersDto $filters): PaginationInterface;
-
+    public function getPaginatedList(int $page, AdvertListInputFiltersDto $filters): PaginationInterface;
 
     /**
      * Save entity.

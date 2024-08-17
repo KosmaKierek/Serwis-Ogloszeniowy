@@ -93,7 +93,4 @@ class TagRepository extends ServiceEntityRepository
         $this->_em->flush();
     }
 
-    public function findOneById(int $id)
-    {
-    }
 }

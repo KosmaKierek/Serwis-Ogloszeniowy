@@ -53,58 +53,43 @@ class AdvertRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Advert::class);
     }
+    
+    /**
+     * Query adverts by author.
+     *
+     * @param AdvertListFiltersDto $filters Filters
+     *
+     * @return QueryBuilder Query builder
+     */
+    public function queryByAuthor(AdvertListFiltersDto $filters): QueryBuilder
+    {
+        $queryBuilder = $this->queryAll($filters);
+
+        return $queryBuilder;
+    }
 
     /**
      * Query all records.
      *
-     * @return \Doctrine\ORM\QueryBuilder Query builder
+     * @param AdvertListFiltersDto $filters Filters
+     *
+     * @return QueryBuilder Query builder
      */
-    public function queryAll(): QueryBuilder
+    public function queryAll(AdvertListFiltersDto $filters): QueryBuilder
     {
-        return $this->getOrCreateQueryBuilder()
+        $queryBuilder = $this->getOrCreateQueryBuilder()
             ->select(
                 'partial advert.{id, createdAt, updatedAt, title}',
                 'partial category.{id, title}',
-            //'partial tags.{id, title}'
+                'partial tags.{id, title}'
             )
             ->join('advert.category', 'category')
-            //->join('advert.tags', 'tags')
-            ->orderBy('advert.createdAt', 'DESC');
+            ->leftJoin('advert.tags', 'tags')
+            ->orderBy('advert.updatedAt', 'DESC');
+
+        return $this->applyFiltersToList($queryBuilder, $filters);
     }
 
-    ///**
-   //  * Query all category records.
-   //  *
-   //  * @param AdvertListFiltersDto $filters Filters
-   //  *
-   //  * @return QueryBuilder Query builder
-    // */
-  //  public function queryAllCategory(AdvertListFiltersDto $filters): QueryBuilder
-  //  {
-   //     $queryBuilder = $this->getOrCreateQueryBuilder()
-    //        ->select(
-   //             'partial advert.{id, createdAt, updatedAt, title}',
-   //             'partial category.{id, title}',
-   //             'partial tags.{id, title}'
-   //         )
-   //         ->join('advert.category', 'category')
-    //        ->leftJoin('advert.tags', 'tags')
-    //        ->orderBy('advert.updatedAt', 'DESC');
-//
-   //     return $this->applyFiltersToList($queryBuilder, $filters);
-  //  }
-   // /**
-   //  * Query adverts by category.
-   //  *
-  //   * @param AdvertListFiltersDto $filters Filters
-   //  *
-   //  * @return QueryBuilder Query builder
-   //  */
-   // public function queryByCategory(AdvertListFiltersDto $filters): QueryBuilder
-   // {
-    //    $queryBuilder = $this->queryAllCategory($filters);
-    //    return $this->applyFiltersToList($queryBuilder, $filters);
-   // }
 
     /**
      * Apply filters to paginated list.
@@ -119,6 +104,11 @@ class AdvertRepository extends ServiceEntityRepository
         if ($filters->category instanceof Category) {
             $queryBuilder->andWhere('category = :category')
                 ->setParameter('category', $filters->category);
+        }
+
+        if ($filters->tag instanceof Tag) {
+            $queryBuilder->andWhere('tags IN (:tag)')
+                ->setParameter('tag', $filters->tag);
         }
 
         return $queryBuilder;
@@ -183,6 +173,28 @@ class AdvertRepository extends ServiceEntityRepository
         return $qb->select($qb->expr()->countDistinct('advert.id'))
             ->where('advert.category = :category')
             ->setParameter(':category', $category)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    /**
+     * Count recipes by Tag.
+     *
+     * @param Tag $tag
+     *
+     * @return int Number of recipes in category
+     *
+     * @throws NoResultException NoResultException.
+     * @throws NonUniqueResultException NonUniqueResultException.
+     */
+    public function countByTag(Tag $tag): int
+    {
+        $qb = $this->getOrCreateQueryBuilder();
+
+        return $qb->select($qb->expr()->countDistinct('advert.id'))
+            ->leftJoin('advert.tags', 'tag')
+            ->where('tag = :tag')
+            ->setParameter(':tag', $tag)
             ->getQuery()
             ->getSingleScalarResult();
     }

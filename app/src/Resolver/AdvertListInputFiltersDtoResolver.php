@@ -31,8 +31,9 @@ class AdvertListInputFiltersDtoResolver implements ValueResolverInterface
             return [];
         }
 
-        $categoryId = $request->query->get('category.id');
+        $categoryId = $request->query->get('categoryId');
+        $tagId = $request->query->get('tagId');
 
-        return [new AdvertListInputFiltersDto($categoryId)];
+        return [new AdvertListInputFiltersDto($categoryId, $tagId)];
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-  <file source-language="en" datatype="plaintext" original="file.ext">
+  <file source-language="pl" datatype="plaintext" original="file.ext">
     <body>
       <trans-unit id="label.actions">
         <source>label.actions</source>
@@ -22,6 +22,10 @@
         <source>label.tags</source>
         <target>Tagi</target>
       </trans-unit>
+      <trans-unit id="action.advert_index">
+              <source>action.advert_index</source>
+              <target>Strona główna</target>
+            </trans-unit>
       <trans-unit id="message.empty_list">
         <source>message.empty_list</source>
         <target>Lista jest pusta</target>
@@ -132,7 +136,7 @@
 </trans-unit>
 <trans-unit id="message.not_allowed">
 <source>message.not_allowed</source>
-<target>Błąd Dostępu</target>
+<target>Błąd</target>
 </trans-unit>
 <trans-unit id="message.changed_successfully">
 <source>message.changed_successfully</source>

@@ -30,17 +30,41 @@
             {% for advert in pagination.items %}
                 <tr>
                     <td>{{ advert.id }}</td>
-                    <td>{{ advert.createdAt|date('Y/m/d') }}</td>
-                    <td>{{ advert.updatedAt|date('Y/m/d') }}</td>
+                    <td>{{ advert.createdAt|format_date('long') }}</td>
+                    <td>{{ advert.updatedAt|format_date('long') }}</td>
                     <td>{{ advert.title }}</td>
-                    <td>{{ advert.category.title }}</td>
-                    <td>{{ advert.author.email }}</td>
+                   {# <td>{{ advert.category.title }}</td> #}
+
                     <td>
-                        {% for tag in advert.tags %}
-                                {{ tag.title }}<br>{% if not loop.last %}
-                            {% endif %}
-                        {% endfor %}
+                    <a class="btn btn-outline-primary"
+                       href="{{ url('advert_index', {'categoryId' : advert.category.id}) }}"
+                       title="{{ advert.category.title }}">
+                        {{ advert.category.title }}
+                    </a>
                     </td>
+
+                    <td>{{ advert.author.email }}</td>
+
+                    <td>
+                    {% if advert.tags is defined and advert.tags|length %}
+                        {% for tag in advert.tags %}
+                            <a class="btn btn-outline-primary"
+                               href="{{ url('advert_index', {'tagId' : tag.id}) }}"
+                               title="{{ tag.title }}">
+                                {{ tag.title }}
+                            </a>
+                        {% endfor %}
+                    {% else %}
+                        &nbsp;
+                    {% endif %}
+                    </td>
+
+                    {# <td>
+                        {% for tag in advert.tags %}
+                            {{ tag.title }}<br>{% if not loop.last %}
+                        {% endif %}
+                        {% endfor %}
+                    </td>#}
 
                     <td>
                         <a class="btn btn-outline-primary" href="{{ url('advert_show', {id: advert.id}) }}" title="{{ 'action.show'|trans }}">
@@ -63,6 +87,9 @@
             {% endfor %}
             </tbody>
         </table>
+        <a class="btn btn-outline-primary" href="{{ url('advert_index') }}" title="{{ 'action.advert_index'|trans }}">
+            {{ 'action.advert_index'|trans }}
+        </a>
 
         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
             <a class="btn btn-primary" href="{{ url('advert_create') }}" title="{{ 'action.create'|trans }}">

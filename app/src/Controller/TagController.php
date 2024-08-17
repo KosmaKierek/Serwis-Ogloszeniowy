@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -42,15 +43,9 @@ class TagController extends AbstractController
      * @return Response HTTP response
      */
     #[Route(name: 'tag_index', methods: 'GET')]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(#[MapQueryParameter] int $page=1): Response
     {
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash(
-                'danger',
-                $this->translator->trans('message.not_allowed')
-            );
-            return $this->redirectToRoute('advert_index');
-        }
         $pagination = $this->tagService->getPaginatedList($page);
 
         return $this->render('tag/index.html.twig', ['pagination' => $pagination]);
@@ -71,17 +66,10 @@ class TagController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET'
     )]
+    #[IsGranted('ROLE_ADMIN')]
     public function show(Tag $tag): Response
     {
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash(
-                'danger',
-                $this->translator->trans('message.not_allowed')
-            );
-            return $this->redirectToRoute('advert_index');
-        }
         return $this->render('tag/show.html.twig', ['tag' => $tag]);
-
     }
 
 
@@ -97,15 +85,9 @@ class TagController extends AbstractController
         name: 'tag_create',
         methods: 'GET|POST',
     )]
+    #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request): Response
     {
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash(
-                'danger',
-                $this->translator->trans('message.not_allowed')
-            );
-            return $this->redirectToRoute('advert_index');
-        }
         $tag  = new Tag();
         $form = $this->createForm(TagType::class, $tag);
         $form->handleRequest($request);
@@ -138,15 +120,9 @@ class TagController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'tag_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Tag $tag): Response
     {
-        if (!$this->isGranted('ROLE_ADMIN')) {
-            $this->addFlash(
-                'danger',
-                $this->translator->trans('message.not_allowed')
-            );
-            return $this->redirectToRoute('advert_index');
-        }
         $form = $this->createForm(
             TagType::class,
             $tag,
@@ -188,14 +164,16 @@ class TagController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'tag_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Tag $tag): Response
     {
-        if (!$this->isGranted('ROLE_ADMIN')) {
+        if (!$this->tagService->canBeDeleted($tag)) {
             $this->addFlash(
-                'danger',
-                $this->translator->trans('message.not_allowed')
+                'warning',
+                $this->translator->trans('message.adverts_contain_tag')
             );
-            return $this->redirectToRoute('advert_index');
+
+            return $this->redirectToRoute('tag_index');
         }
         $form = $this->createForm(
             FormType::class,

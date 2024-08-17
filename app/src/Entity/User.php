@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
 #[ORM\UniqueConstraint(name: 'email_idx', columns: ['email'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User extends \App\Dto\AdvertListInputFiltersDto implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * Primary key.

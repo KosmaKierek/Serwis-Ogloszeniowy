@@ -47,17 +47,25 @@ class AdvertController extends AbstractController
     /**
      * Index action.
      *
-     * @param int $page Page number
+     * @param AdvertListInputFiltersDto $filters Input filters
+     * @param int                     $page    Page number
      *
      * @return Response HTTP response
      */
-    #[Route(name: 'advert_index', methods: 'GET')]
-    public function index(#[MapQueryParameter] int $page = 1): Response
+    #[Route(
+        name: 'advert_index',
+        methods: 'GET'
+    )]
+    public function index(#[MapQueryString(resolver: AdvertListInputFiltersDtoResolver::class)] AdvertListInputFiltersDto $filters, #[MapQueryParameter] int $page = 1): Response
     {
-        $pagination = $this->advertService->getPaginatedList($page);
+        $pagination = $this->advertService->getPaginatedList(
+            $page,
+            $filters
+        );
 
         return $this->render('advert/index.html.twig', ['pagination' => $pagination]);
     }
+
 
     /**
      * Show action.
@@ -71,19 +79,6 @@ class AdvertController extends AbstractController
     {
         return $this->render('advert/show.html.twig', ['advert' => $advert]);
     }
-
-    ///**
-    // * Show by category action.
-    // *
-   //  * @param Advert $advert Advert entity
-    // *
-   //  * @return Response HTTP response
-    // */
-    //#[Route('/category/{id}', name: 'advert.category_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET', )]
-    //public function showCategory(Advert $advert): Response
-    //{
-        //return $this->render('advert/category/show.html.twig', ['advert' => $advert]);
-    //}
 
 
     /**

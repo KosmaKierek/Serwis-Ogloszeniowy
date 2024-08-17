@@ -30,8 +30,8 @@
             {% for advert in pagination.items %}
                 <tr>
                     <td>{{ advert.id }}</td>
-                    <td>{{ advert.createdAt|date('Y/m/d') }}</td>
-                    <td>{{ advert.updatedAt|date('Y/m/d') }}</td>
+                    <td>{{ advert.createdAt|format_date('long') }}</td>
+                    <td>{{ advert.updatedAt|format_date('long') }}</td>
                     <td>{{ advert.title }}</td>
                     <td><a class="btn btn-outline-primary"
                            href="{{ url('advert.category.id_index', {id : advert.category.id}) }}"

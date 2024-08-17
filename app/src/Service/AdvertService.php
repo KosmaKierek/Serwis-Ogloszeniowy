@@ -8,8 +8,12 @@ namespace App\Service;
 use App\Dto\AdvertListFiltersDto;
 use App\Dto\AdvertListInputFiltersDto;
 use App\Entity\Advert;
+use App\Entity\Category;
 use App\Entity\User;
 use App\Repository\AdvertRepository;
+use App\Service\AdvertServiceInterface;
+use App\Service\CategoryServiceInterface;
+use App\Service\TagServiceInterface;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -38,55 +42,27 @@ class AdvertService implements AdvertServiceInterface
      *
      * @param CategoryServiceInterface $categoryService Category service
      * @param PaginatorInterface       $paginator       Paginator
+     * @param TagServiceInterface      $tagService      Tag service
      * @param AdvertRepository           $advertRepository  Advert repository
      */
-    public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly PaginatorInterface $paginator, private readonly AdvertRepository $advertRepository)
+    public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly PaginatorInterface $paginator, private readonly TagServiceInterface $tagService, private readonly AdvertRepository $advertRepository)
     {
     }
-
-   // /**
-   //  * Prepare filters for the advert list.
-   //  *
-    // * @param AdvertListInputFiltersDto $filters Raw filters from request
-    // *
-    // * @return AdvertListFiltersDto Result filters
-    // */
-  //  private function prepareFilters(AdvertListInputFiltersDto $filters): AdvertListFiltersDto
-   // {
-     //   return new AdvertListFiltersDto(
-     //       null !== $filters->categoryId ? $this->categoryService->findOneById($filters->categoryId) : null,
-     //   );
-   // }
-
-   // /**
-    // * Get new paginated list.
-    // *
-   //  * @param int $page Page number
-   //  * @param AdvertListInputFiltersDto $filters Filters
-   //  *
-   //  * @return PaginationInterface<SlidingPagination> Paginated list
-    // */
-  //  public function getNewPaginatedList(int $page, AdvertListInputFiltersDto $filters): PaginationInterface
-  //  {
-   //     $filters = $this->prepareFilters($filters);
-    //    return $this->paginator->paginate(
-    //        $this->advertRepository->queryByCategory($filters),
-     //       $page,
-     //       self::PAGINATOR_ITEMS_PER_PAGE
-      //  );
-   // }
 
     /**
      * Get paginated list.
      *
-     * @param int $page Page number
+     * @param int                     $page    Page number
+     * @param AdvertListInputFiltersDto $filters Filters
      *
-     * @return PaginationInterface<string, mixed> Paginated list
+     * @return PaginationInterface<SlidingPagination> Paginated list
      */
-    public function getPaginatedList(int $page): PaginationInterface
+    public function getPaginatedList(int $page, AdvertListInputFiltersDto $filters): PaginationInterface
     {
+        $filters = $this->prepareFilters($filters);
+
         return $this->paginator->paginate(
-            $this->advertRepository->queryAll(),
+            $this->advertRepository->queryByAuthor($filters),
             $page,
             self::PAGINATOR_ITEMS_PER_PAGE
         );
@@ -116,5 +92,18 @@ class AdvertService implements AdvertServiceInterface
         $this->advertRepository->delete($advert);
     }
 
-
+    /**
+     * Prepare filters for the adverts list.
+     *
+     * @param AdvertListInputFiltersDto $filters Raw filters from request
+     *
+     * @return AdvertListFiltersDto Result filters
+     */
+    private function prepareFilters(AdvertListInputFiltersDto $filters): AdvertListFiltersDto
+    {
+        return new AdvertListFiltersDto(
+            null !== $filters->categoryId ? $this->categoryService->findOneById($filters->categoryId) : null,
+            null !== $filters->tagId ? $this->tagService->findOneById($filters->tagId) : null,
+        );
+    }
 }
