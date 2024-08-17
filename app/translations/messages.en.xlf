@@ -268,6 +268,11 @@
 <target>invalid tags</target>
 </trans-unit>
 
+<trans-unit id="message.adverts_contain_tag">
+<source>message.adverts_contain_tag</source>
+<target>adverts contain tag</target>
+</trans-unit>
+
 </body>
 </file>
 </xliff>

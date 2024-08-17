@@ -44,6 +44,7 @@ class CategoryController extends AbstractController
                 'danger',
                 $this->translator->trans('message.not_allowed')
             );
+
             return $this->redirectToRoute('advert_index');
         }
         $pagination = $this->categoryService->getPaginatedList($page);
@@ -71,8 +72,10 @@ class CategoryController extends AbstractController
                 'danger',
                 $this->translator->trans('message.not_allowed')
             );
+
             return $this->redirectToRoute('advert_index');
         }
+
         return $this->render('category/show.html.twig', ['category' => $category]);
     }
 
@@ -95,6 +98,7 @@ class CategoryController extends AbstractController
                 'danger',
                 $this->translator->trans('message.not_allowed')
             );
+
             return $this->redirectToRoute('advert_index');
         }
         $category = new Category();
@@ -134,6 +138,7 @@ class CategoryController extends AbstractController
                 'danger',
                 $this->translator->trans('message.not_allowed')
             );
+
             return $this->redirectToRoute('advert_index');
         }
         $form = $this->createForm(
@@ -182,9 +187,10 @@ class CategoryController extends AbstractController
                 'danger',
                 $this->translator->trans('message.not_allowed')
             );
+
             return $this->redirectToRoute('advert_index');
         }
-        if(!$this->categoryService->canBeDeleted($category)) {
+        if (!$this->categoryService->canBeDeleted($category)) {
             $this->addFlash(
                 'warning',
                 $this->translator->trans('message.category_contains_adverts')

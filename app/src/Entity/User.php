@@ -22,8 +22,6 @@ class User extends \App\Dto\AdvertListInputFiltersDto implements UserInterface, 
 {
     /**
      * Primary key.
-     *
-     * @var int|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -32,8 +30,6 @@ class User extends \App\Dto\AdvertListInputFiltersDto implements UserInterface, 
 
     /**
      * Email.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Assert\NotBlank]
@@ -50,8 +46,6 @@ class User extends \App\Dto\AdvertListInputFiltersDto implements UserInterface, 
 
     /**
      * Password.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]

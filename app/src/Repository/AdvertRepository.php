@@ -17,7 +17,6 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class AdvertRepository.
@@ -53,7 +52,7 @@ class AdvertRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Advert::class);
     }
-    
+
     /**
      * Query adverts by author.
      *
@@ -90,11 +89,10 @@ class AdvertRepository extends ServiceEntityRepository
         return $this->applyFiltersToList($queryBuilder, $filters);
     }
 
-
     /**
      * Apply filters to paginated list.
      *
-     * @param QueryBuilder       $queryBuilder Query builder
+     * @param QueryBuilder         $queryBuilder Query builder
      * @param AdvertListFiltersDto $filters      Filters
      *
      * @return QueryBuilder Query builder
@@ -118,6 +116,7 @@ class AdvertRepository extends ServiceEntityRepository
      * Save entity.
      *
      * @param Advert $advert Advert entity
+     *
      * @throws \Doctrine\ORM\Exception\ORMException
      */
     public function save(Advert $advert): void
@@ -140,7 +139,6 @@ class AdvertRepository extends ServiceEntityRepository
         assert($this->_em instanceof EntityManager);
         $this->_em->remove($advert);
         $this->_em->flush();
-
     }
 
     /**
@@ -150,9 +148,10 @@ class AdvertRepository extends ServiceEntityRepository
      *
      * @return QueryBuilder Query builder
      */
-    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
         $queryBuilder = null;
+
         return $queryBuilder ?? $this->createQueryBuilder('advert');
     }
 
@@ -180,12 +179,10 @@ class AdvertRepository extends ServiceEntityRepository
     /**
      * Count recipes by Tag.
      *
-     * @param Tag $tag
-     *
      * @return int Number of recipes in category
      *
-     * @throws NoResultException NoResultException.
-     * @throws NonUniqueResultException NonUniqueResultException.
+     * @throws NoResultException        noResultException
+     * @throws NonUniqueResultException nonUniqueResultException
      */
     public function countByTag(Tag $tag): int
     {

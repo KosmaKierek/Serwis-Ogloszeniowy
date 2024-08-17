@@ -91,7 +91,7 @@ class AdvertVoter extends Voter
      * Checks if user can edit task.
      *
      * @param Advert        $advert Advert entity
-     * @param UserInterface $user User
+     * @param UserInterface $user   User
      *
      * @return bool Result
      */
@@ -104,7 +104,7 @@ class AdvertVoter extends Voter
      * Checks if user can view task.
      *
      * @param Advert        $advert Advert entity
-     * @param UserInterface $user User
+     * @param UserInterface $user   User
      *
      * @return bool Result
      */
@@ -117,7 +117,7 @@ class AdvertVoter extends Voter
      * Checks if user can delete task.
      *
      * @param Advert        $advert Advert entity
-     * @param UserInterface $user User
+     * @param UserInterface $user   User
      *
      * @return bool Result
      */

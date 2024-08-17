@@ -5,13 +5,9 @@
 
 namespace App\Repository;
 
-use App\Entity\Category;
-use App\Entity\Advert;
 use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
@@ -58,7 +54,7 @@ class TagRepository extends ServiceEntityRepository
      *
      * @return QueryBuilder Query builder
      */
-    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('tag');
     }
@@ -92,5 +88,4 @@ class TagRepository extends ServiceEntityRepository
         $this->_em->remove($tag);
         $this->_em->flush();
     }
-
 }

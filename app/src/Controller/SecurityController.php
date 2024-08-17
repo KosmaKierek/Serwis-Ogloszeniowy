@@ -18,7 +18,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SecurityController extends AbstractController
 {
-
     /**
      * @param UserServiceInterface        $userService    User service
      * @param TranslatorInterface         $translator     Translator
@@ -27,6 +26,7 @@ class SecurityController extends AbstractController
     public function __construct(private readonly UserServiceInterface $userService, private readonly TranslatorInterface $translator, private readonly UserPasswordHasherInterface $passwordHasher)
     {
     }
+
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -117,8 +117,11 @@ class SecurityController extends AbstractController
         }
 
         $user = $this->getUser();
-        $form = $this->createForm(EmailChangeType::class, $user,
-            ['method' => 'PUT']);
+        $form = $this->createForm(
+            EmailChangeType::class,
+            $user,
+            ['method' => 'PUT']
+        );
 
         $form->handleRequest($request);
 
@@ -162,8 +165,11 @@ class SecurityController extends AbstractController
         }
 
         $user = $this->getUser();
-        $form = $this->createForm(PasswordChangeType::class, $user,
-            ['method' => 'PUT']);
+        $form = $this->createForm(
+            PasswordChangeType::class,
+            $user,
+            ['method' => 'PUT']
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

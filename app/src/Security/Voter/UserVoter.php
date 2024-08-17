@@ -28,7 +28,6 @@ class UserVoter extends Voter
      */
     private const EDIT = 'EDIT';
 
-
     /**
      * Delete permission.
      *
@@ -83,7 +82,7 @@ class UserVoter extends Voter
     /**
      * Checks if user can edit.
      *
-     * @param User        $user User entity
+     * @param User          $user  User entity
      * @param UserInterface $watch User
      *
      * @return bool Result
@@ -93,11 +92,10 @@ class UserVoter extends Voter
         return $user->getEmail() === $watch;
     }
 
-
     /**
      * Checks if user can delete.
      *
-     * @param User        $user User entity
+     * @param User          $user  User entity
      * @param UserInterface $watch User
      *
      * @return bool Result

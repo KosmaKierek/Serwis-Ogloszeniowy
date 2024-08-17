@@ -68,7 +68,8 @@ class PasswordChangeType extends AbstractType
                 'mapped'          => false,
                 'label'           => 'label.password',
                 'required'        => true,
-            ]);
+            ]
+        );
     }
 
     /**

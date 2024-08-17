@@ -8,12 +8,9 @@ namespace App\Controller;
 use App\Dto\AdvertListInputFiltersDto;
 use App\Entity\Advert;
 use App\Resolver\AdvertListInputFiltersDtoResolver;
-use App\Security\Voter\AdvertVoter;
-use App\Entity\Category;
 use App\Entity\User;
 use App\Form\Type\AdvertType;
 use App\Service\AdvertService;
-use App\Service\AdvertServiceInterface;
 use App\Service\CategoryServiceInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,9 +21,6 @@ use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapQueryString;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
@@ -35,7 +29,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/advert')]
 class AdvertController extends AbstractController
 {
-
     /**
      * Constructor.
      */
@@ -48,7 +41,7 @@ class AdvertController extends AbstractController
      * Index action.
      *
      * @param AdvertListInputFiltersDto $filters Input filters
-     * @param int                     $page    Page number
+     * @param int                       $page    Page number
      *
      * @return Response HTTP response
      */
@@ -66,7 +59,6 @@ class AdvertController extends AbstractController
         return $this->render('advert/index.html.twig', ['pagination' => $pagination]);
     }
 
-
     /**
      * Show action.
      *
@@ -74,12 +66,11 @@ class AdvertController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}', name: 'advert_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET', )]
+    #[Route('/{id}', name: 'advert_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET',)]
     public function show(Advert $advert): Response
     {
         return $this->render('advert/show.html.twig', ['advert' => $advert]);
     }
-
 
     /**
      * Create action.
@@ -87,6 +78,7 @@ class AdvertController extends AbstractController
      * @param Request $request HTTP request
      *
      * @return Response HTTP response
+     *
      * @throws ORMException
      */
     #[Route(
@@ -100,8 +92,11 @@ class AdvertController extends AbstractController
         $user = $this->getUser();
         $advert = new Advert();
         $advert->setAuthor($user);
-        $form = $this->createForm(AdvertType::class, $advert,
-            ['action' => $this->generateUrl('advert_create')]);
+        $form = $this->createForm(
+            AdvertType::class,
+            $advert,
+            ['action' => $this->generateUrl('advert_create')]
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -125,9 +120,10 @@ class AdvertController extends AbstractController
      * Edit action.
      *
      * @param Request $request HTTP request
-     * @param Advert $advert Advert entity
+     * @param Advert  $advert  Advert entity
      *
      * @return Response HTTP response
+     *
      * @throws ORMException
      */
     #[Route('/{id}/edit', name: 'advert_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
@@ -143,13 +139,13 @@ class AdvertController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        //if (!$this->isGranted('ROLE_ADMIN')) {
-        //$this->addFlash(
-        //'danger',
-        //$this->translator->trans('message.not_allowed')
-        //);
+        // if (!$this->isGranted('ROLE_ADMIN')) {
+        // $this->addFlash(
+        // 'danger',
+        // $this->translator->trans('message.not_allowed')
+        // );
         // $this->redirectToRoute('advert_index');
-        //}
+        // }
         $form = $this->createForm(
             AdvertType::class,
             $advert,
@@ -183,8 +179,8 @@ class AdvertController extends AbstractController
     /**
      * Delete action.
      *
-     * @param Request  $request  HTTP request
-     * @param Advert $advert Advert entity
+     * @param Request $request HTTP request
+     * @param Advert  $advert  Advert entity
      *
      * @return Response HTTP response
      */
@@ -200,13 +196,13 @@ class AdvertController extends AbstractController
 
             return $this->redirectToRoute('app_login');
         }
-        //if (!$this->isGranted('ROLE_ADMIN')) {
-        //->addFlash(
-        //'danger',
-        //$this->translator->trans('message.not_allowed')
-        //);
-        //return $this->redirectToRoute('advert_index');
-        //}
+        // if (!$this->isGranted('ROLE_ADMIN')) {
+        // ->addFlash(
+        // 'danger',
+        // $this->translator->trans('message.not_allowed')
+        // );
+        // return $this->redirectToRoute('advert_index');
+        // }
         $form = $this->createForm(
             FormType::class,
             $advert,

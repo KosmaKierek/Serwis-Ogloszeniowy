@@ -5,10 +5,7 @@
 
 namespace App\Form\Type;
 
-use App\Entity\Category;
-use App\Entity\Advert;
 use App\Entity\Tag;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,6 +25,7 @@ class TagType extends AbstractType
     public function __construct(private readonly TranslatorInterface $translator)
     {
     }
+
     /**
      * Builds the form.
      *
@@ -53,8 +51,9 @@ class TagType extends AbstractType
                         'pattern' => '/^[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$/',
                         'message' => $this->translator->trans('label.invalid_tags'),
                     ]),
-                ]
-            ]);
+                ],
+            ]
+        );
     }
 
     /**

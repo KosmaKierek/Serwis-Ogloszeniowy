@@ -5,10 +5,7 @@
 
 namespace App\Form\Type;
 
-use App\Entity\Category;
 use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -48,7 +45,8 @@ class UserType extends AbstractType
             [
                 'label' => 'label.title',
                 'required' => true,
-            ]);
+            ]
+        );
 
         $builder->add(
             'password',
@@ -57,17 +55,18 @@ class UserType extends AbstractType
                 'type'            => PasswordType::class,
                 'first_options'   => ['label' => 'label.new_password',
                     'attr'     => [
-                    'minlength' => 6,
-                ], ],
+                        'minlength' => 6,
+                    ], ],
                 'second_options'  => ['label' => 'label.repeat_new_password',
                     'attr'     => [
                         'minlength' => 6,
-                ], ],
+                    ], ],
                 'invalid_message' => $this->translator->trans('message.invalid_repeated_password'),
                 'mapped'          => false,
                 'label'           => 'label.password',
                 'required'        => true,
-            ]);
+            ]
+        );
     }
 
     /**

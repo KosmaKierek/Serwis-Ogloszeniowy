@@ -3,13 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\TagRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use DateTimeImmutable;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 #[ORM\Table(name: 'tags')]
@@ -18,8 +15,6 @@ class Tag
 {
     /**
      * Primary key.
-     *
-     * @var integer|null
      */
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,30 +23,22 @@ class Tag
 
     /**
      * Created at.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Assert\Type(DateTimeImmutable::class)]
+    #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'create')]
     private ?\DateTimeImmutable $createdAt;
 
-
     /**
      * Updated at.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Assert\Type(DateTimeImmutable::class)]
+    #[Assert\Type(\DateTimeImmutable::class)]
     #[Gedmo\Timestampable(on: 'update')]
     private ?\DateTimeImmutable $updatedAt;
 
-
     /**
      * Slug.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 64)]
     #[Assert\Type('string')]
@@ -61,8 +48,6 @@ class Tag
 
     /**
      * Title.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 64)]
     #[Assert\Type('string')]
@@ -70,7 +55,6 @@ class Tag
     #[Assert\Regex(pattern: '/[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]*/')]
     #[Assert\Length(min: 1, max: 64)]
     private ?string $title;
-
 
     public function getId(): ?int
     {

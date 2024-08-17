@@ -6,7 +6,6 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -37,8 +36,6 @@ class Category
 
     /**
      * Created at.
-     *
-     * @var DateTimeImmutable|null
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'create')]
@@ -46,9 +43,6 @@ class Category
 
     /**
      * Updated at.
-     *
-     * @var DateTimeImmutable|null
-     *
      */
     #[ORM\Column(type: 'datetime_immutable')]
     #[Gedmo\Timestampable(on: 'update')]
@@ -56,8 +50,6 @@ class Category
 
     /**
      * Title.
-     *
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
@@ -66,21 +58,19 @@ class Category
 
     /**
      * Slug.
-     * @var string|null
      */
     #[ORM\Column(type: 'string', length: 64)]
     #[Gedmo\Slug(fields: ['title'])]
     private ?string $slug;
 
+    /* #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
+     #[ORM\JoinTable(name: 'adverts_tags')]
+     private Collection $tags;
 
-   /* #[ORM\ManyToMany(targetEntity: Tag::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
-    #[ORM\JoinTable(name: 'adverts_tags')]
-    private Collection $tags;
-
-    public function __construct()
-    {
-        $this->tags = new ArrayCollection();
-    }
+     public function __construct()
+     {
+         $this->tags = new ArrayCollection();
+     }
 */
     /**
      * Getter for Id.
@@ -151,8 +141,6 @@ class Category
     {
         $this->title = $title;
     }
-
-
 
     public function getSlug(): ?string
     {

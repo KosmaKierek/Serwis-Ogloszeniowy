@@ -2,13 +2,12 @@
 /**
  * Category repository.
  */
+
 namespace App\Repository;
 
 use App\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
@@ -34,6 +33,7 @@ class CategoryRepository extends ServiceEntityRepository
      * @constant int
      */
     public const PAGINATOR_ITEMS_PER_PAGE = 10;
+
     /**
      * Constructor.
      *
@@ -63,7 +63,7 @@ class CategoryRepository extends ServiceEntityRepository
      *
      * @return QueryBuilder Query builder
      */
-    private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
+    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('category');
     }
@@ -72,6 +72,7 @@ class CategoryRepository extends ServiceEntityRepository
      * Save entity.
      *
      * @param Category $category Category entity
+     *
      * @throws \Doctrine\ORM\Exception\ORMException
      */
     public function save(Category $category): void
@@ -94,5 +95,4 @@ class CategoryRepository extends ServiceEntityRepository
         $this->_em->remove($category);
         $this->_em->flush();
     }
-
 }

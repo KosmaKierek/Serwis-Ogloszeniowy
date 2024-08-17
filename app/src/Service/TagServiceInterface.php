@@ -58,12 +58,11 @@ interface TagServiceInterface
     public function findOneById(int $id): ?Tag;
 
     /**
-     * Can Tag be deleted
+     * Can Tag be deleted.
      *
      * @param Tag $tag Tag entity
      *
      * @return bool Result
      */
     public function canBeDeleted(Tag $tag): bool;
-
 }

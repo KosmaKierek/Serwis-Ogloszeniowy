@@ -6,13 +6,9 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
-use App\Entity\Tag;
 use App\Entity\Advert;
 use App\Entity\User;
-use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-use Faker\Generator;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 /**
  * Class AdvertFixtures.
@@ -50,8 +46,7 @@ class AdvertFixtures extends AbstractBaseFixtures implements DependentFixtureInt
             $category = $this->getRandomReference('categories');
             $advert->setCategory($category);
 
-            for ($i = 0; $i<3; ++$i)
-            {
+            for ($i = 0; $i < 3; ++$i) {
                 $tag = $this->getRandomReference('tags');
                 $advert->addTag($tag);
             }

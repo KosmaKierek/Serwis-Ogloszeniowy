@@ -14,8 +14,6 @@ use App\Entity\Tag;
  */
 class TagFixtures extends AbstractBaseFixtures
 {
-
-
     /**
      * Load data.
      *
@@ -24,7 +22,10 @@ class TagFixtures extends AbstractBaseFixtures
      */
     public function loadData(): void
     {
-        $this->createMany(10, 'tags', function (int $i) {
+        $this->createMany(
+            10,
+            'tags',
+            function (int $i) {
                 $tag = new Tag();
                 $tag->setTitle($this->faker->unique()->word);
                 $tag->setCreatedAt(
@@ -37,6 +38,7 @@ class TagFixtures extends AbstractBaseFixtures
                         $this->faker->dateTimeBetween('-100 days', '-1 days')
                     )
                 );
+
                 return $tag;
             }
         );

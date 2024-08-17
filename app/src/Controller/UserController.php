@@ -16,7 +16,6 @@ use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Class UserController.
@@ -46,34 +45,38 @@ class UserController extends AbstractController
                 'danger',
                 $this->translator->trans('message.not_allowed')
             );
+
             return $this->redirectToRoute('advert_index');
         }
         $pagination = $this->userService->getPaginatedList($page, $this->getUser());
-        return $this->render('user/index.html.twig', ['pagination'    => $pagination,]
+
+        return $this->render(
+            'user/index.html.twig',
+            ['pagination'    => $pagination]
         );
     }
-
 
     /**
- * Show action.
- *
- * @param User $user User entity
- *
- * @return Response HTTP response
- */
-#[Route('/{id}', name: 'user_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET')]
+     * Show action.
+     *
+     * @param User $user User entity
+     *
+     * @return Response HTTP response
+     */
+    #[Route('/{id}', name: 'user_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET')]
     public function show(User $user): Response
-{
-    if (!$this->isGranted('ROLE_ADMIN')) {
-        $this->addFlash(
-            'danger',
-            $this->translator->trans('message.not_allowed')
-        );
-        return $this->redirectToRoute('advert_index');
-    }
-    return $this->render('user/show.html.twig', ['user' => $user]);
-}
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash(
+                'danger',
+                $this->translator->trans('message.not_allowed')
+            );
 
+            return $this->redirectToRoute('advert_index');
+        }
+
+        return $this->render('user/show.html.twig', ['user' => $user]);
+    }
 
     /**
      * Edit action.
@@ -85,47 +88,48 @@ class UserController extends AbstractController
      */
     #[Route('/{id}/edit', name: 'user_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
     public function edit(Request $request, User $user): Response
-{
-    if (!$this->isGranted('ROLE_ADMIN')) {
-        $this->addFlash(
-            'danger',
-            $this->translator->trans('message.not_allowed')
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash(
+                'danger',
+                $this->translator->trans('message.not_allowed')
+            );
+
+            return $this->redirectToRoute('advert_index');
+        }
+
+        $form = $this->createForm(
+            UserType::class,
+            $user,
+            [
+                'method' => 'PUT',
+                'action' => $this->generateUrl('user_edit', ['id' => $user->getId()]),
+            ]
         );
-        return $this->redirectToRoute('advert_index');
-    }
+        $form->handleRequest($request);
 
-    $form = $this->createForm(
-        UserType::class,
-        $user,
-        [
-            'method' => 'PUT',
-            'action' => $this->generateUrl('user_edit', ['id' => $user->getId()]),
-        ]
-    );
-    $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newPassword = $form->get('password')->getData();
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        $newPassword = $form->get('password')->getData();
+            $user->setPassword($this->passwordHasher->hashPassword($user, $newPassword));
+            $this->userService->save($user);
 
-        $user->setPassword($this->passwordHasher->hashPassword($user, $newPassword));
-        $this->userService->save($user);
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.edited_successfully')
+            );
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('message.edited_successfully')
+            return $this->redirectToRoute('user_index');
+        }
+
+        return $this->render(
+            'user/edit.html.twig',
+            [
+                'form' => $form->createView(),
+                'user' => $user,
+            ]
         );
-
-        return $this->redirectToRoute('user_index');
     }
-
-    return $this->render(
-        'user/edit.html.twig',
-        [
-            'form' => $form->createView(),
-            'user' => $user,
-        ]
-    );
-}
 
     /**
      * Delete action.
@@ -137,41 +141,42 @@ class UserController extends AbstractController
      */
     #[Route('/{id}/delete', name: 'user_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
     public function delete(Request $request, User $user): Response
-{
-    if (!$this->isGranted('ROLE_ADMIN')) {
-        $this->addFlash(
-            'danger',
-            $this->translator->trans('message.not_allowed')
+    {
+        if (!$this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash(
+                'danger',
+                $this->translator->trans('message.not_allowed')
+            );
+
+            return $this->redirectToRoute('user_index');
+        }
+        $form = $this->createForm(
+            FormType::class,
+            $user,
+            [
+                'method' => 'DELETE',
+                'action' => $this->generateUrl('user_delete', ['id' => $user->getId()]),
+            ]
         );
-        return $this->redirectToRoute('user_index');
-    }
-    $form = $this->createForm(
-        FormType::class,
-        $user,
-        [
-            'method' => 'DELETE',
-            'action' => $this->generateUrl('user_delete', ['id' => $user->getId()]),
-        ]
-    );
-    $form->handleRequest($request);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        $this->userService->delete($user);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->userService->delete($user);
 
-        $this->addFlash(
-            'success',
-            $this->translator->trans('message.deleted_successfully')
+            $this->addFlash(
+                'success',
+                $this->translator->trans('message.deleted_successfully')
+            );
+
+            return $this->redirectToRoute('user_index');
+        }
+
+        return $this->render(
+            'user/delete.html.twig',
+            [
+                'form' => $form->createView(),
+                'user' => $user,
+            ]
         );
-
-        return $this->redirectToRoute('user_index');
     }
-
-    return $this->render(
-        'user/delete.html.twig',
-        [
-            'form' => $form->createView(),
-            'user' => $user,
-        ]
-    );
-}
 }

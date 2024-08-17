@@ -9,12 +9,7 @@ use App\Dto\AdvertListFiltersDto;
 use App\Dto\AdvertListInputFiltersDto;
 use App\Entity\Advert;
 use App\Entity\Category;
-use App\Entity\User;
 use App\Repository\AdvertRepository;
-use App\Service\AdvertServiceInterface;
-use App\Service\CategoryServiceInterface;
-use App\Service\TagServiceInterface;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
@@ -40,10 +35,10 @@ class AdvertService implements AdvertServiceInterface
     /**
      * Constructor.
      *
-     * @param CategoryServiceInterface $categoryService Category service
-     * @param PaginatorInterface       $paginator       Paginator
-     * @param TagServiceInterface      $tagService      Tag service
-     * @param AdvertRepository           $advertRepository  Advert repository
+     * @param CategoryServiceInterface $categoryService  Category service
+     * @param PaginatorInterface       $paginator        Paginator
+     * @param TagServiceInterface      $tagService       Tag service
+     * @param AdvertRepository         $advertRepository Advert repository
      */
     public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly PaginatorInterface $paginator, private readonly TagServiceInterface $tagService, private readonly AdvertRepository $advertRepository)
     {
@@ -52,7 +47,7 @@ class AdvertService implements AdvertServiceInterface
     /**
      * Get paginated list.
      *
-     * @param int                     $page    Page number
+     * @param int                       $page    Page number
      * @param AdvertListInputFiltersDto $filters Filters
      *
      * @return PaginationInterface<SlidingPagination> Paginated list
@@ -72,6 +67,7 @@ class AdvertService implements AdvertServiceInterface
      * Save entity.
      *
      * @param Advert $advert Advert entity
+     *
      * @throws \Doctrine\ORM\Exception\ORMException
      */
     public function save(Advert $advert): void

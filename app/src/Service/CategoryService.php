@@ -19,7 +19,6 @@ use App\Entity\Category;
  * Class AdvertService.
  */
 class CategoryService implements CategoryServiceInterface
-
 {
     /**
      * Items per page.
@@ -76,14 +75,13 @@ class CategoryService implements CategoryServiceInterface
      * Save entity.
      *
      * @param Category $category Category entity
+     *
      * @throws ORMException
      */
     public function save(Category $category): void
     {
-
         $this->categoryRepository->save($category);
     }
-
 
     /**
      * @throws OptimisticLockException
@@ -111,5 +109,4 @@ class CategoryService implements CategoryServiceInterface
             return false;
         }
     }
-
 }
