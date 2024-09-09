@@ -35,6 +35,7 @@ class CategoryService implements CategoryServiceInterface
      * Constructor.
      *
      * @param CategoryRepository $categoryRepository Category repository
+     * @param AdvertRepository   $advertRepository   Advert repository
      * @param PaginatorInterface $paginator          Paginator
      */
     public function __construct(private readonly CategoryRepository $categoryRepository, private readonly AdvertRepository $advertRepository, private readonly PaginatorInterface $paginator)
@@ -84,6 +85,10 @@ class CategoryService implements CategoryServiceInterface
     }
 
     /**
+     * Delete entity.
+     *
+     * @param Category $category Category entity
+     *
      * @throws OptimisticLockException
      * @throws \Doctrine\ORM\ORMException
      */

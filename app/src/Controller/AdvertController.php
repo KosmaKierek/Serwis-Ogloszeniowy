@@ -31,6 +31,10 @@ class AdvertController extends AbstractController
 {
     /**
      * Constructor.
+     *
+     * @param AdvertService            $advertService   Advert service
+     * @param TranslatorInterface      $translator      Translator interface
+     * @param CategoryServiceInterface $categoryService Category service interface
      */
     public function __construct(private AdvertService $advertService, private readonly TranslatorInterface $translator, private readonly CategoryServiceInterface $categoryService)
     {
@@ -66,7 +70,7 @@ class AdvertController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/{id}', name: 'advert_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET',)]
+    #[Route('/{id}', name: 'advert_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET')]
     public function show(Advert $advert): Response
     {
         return $this->render('advert/show.html.twig', ['advert' => $advert]);

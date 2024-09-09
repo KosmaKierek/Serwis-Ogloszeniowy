@@ -158,6 +158,8 @@ class User extends \App\Dto\AdvertListInputFiltersDto implements UserInterface, 
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
      *
+     * @return string|null salt
+     *
      * @see UserInterface
      */
     public function getSalt(): ?string
@@ -174,22 +176,5 @@ class User extends \App\Dto\AdvertListInputFiltersDto implements UserInterface, 
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function getAvatar(): ?Avatar
-    {
-        return $this->avatar;
-    }
-
-    public function setAvatar(Avatar $avatar): static
-    {
-        // set the owning side of the relation if necessary
-        if ($avatar->getUser() !== $this) {
-            $avatar->setUser($this);
-        }
-
-        $this->avatar = $avatar;
-
-        return $this;
     }
 }

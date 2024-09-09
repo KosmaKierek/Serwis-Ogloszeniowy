@@ -16,9 +16,13 @@ use Symfony\Bundle\SecurityBundle\Security;
  */
 class UserVoter extends Voter
 {
-    public function __construct(
-        private Security $security,
-    ) {
+    /**
+     * Constructor.
+     *
+     * @param Security $security Security
+     */
+    public function __construct(private Security $security)
+    {
     }
 
     /**

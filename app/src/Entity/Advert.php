@@ -84,6 +84,9 @@ class Advert
     #[Assert\Type(User::class)]
     private ?User $author = null;
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -159,11 +162,23 @@ class Advert
         $this->title = $title;
     }
 
+    /**
+     * Getter for category.
+     *
+     * @return Category|null category
+     */
     public function getCategory(): ?Category
     {
         return $this->category;
     }
 
+    /**
+     * Setter for category.
+     *
+     * @param Category|null $category Category
+     *
+     * @return $this
+     */
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
@@ -172,6 +187,8 @@ class Advert
     }
 
     /**
+     * Getter for tags.
+     *
      * @return Collection<int, Tag>
      */
     public function getTags(): Collection
@@ -179,6 +196,13 @@ class Advert
         return $this->tags;
     }
 
+    /**
+     * Adds tag.
+     *
+     * @param Tag $tag Tag
+     *
+     * @return $this
+     */
     public function addTag(Tag $tag): static
     {
         if (!$this->tags->contains($tag)) {
@@ -188,6 +212,13 @@ class Advert
         return $this;
     }
 
+    /**
+     * Removes tag.
+     *
+     * @param Tag $tag Tag
+     *
+     * @return $this
+     */
     public function removeTag(Tag $tag): static
     {
         $this->tags->removeElement($tag);
@@ -195,11 +226,23 @@ class Advert
         return $this;
     }
 
+    /**
+     * Getter for author.
+     *
+     * @return User|null user
+     */
     public function getAuthor(): ?User
     {
         return $this->author;
     }
 
+    /**
+     * Setter for author.
+     *
+     * @param User|null $author User
+     *
+     * @return $this
+     */
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
@@ -207,11 +250,21 @@ class Advert
         return $this;
     }
 
+    /**
+     * Getter for content.
+     *
+     * @return string|null content
+     */
     public function getContent(): ?string
     {
         return $this->content;
     }
 
+    /**
+     * Setter for content.
+     *
+     * @param string $content content
+     */
     public function setContent(string $content): void
     {
         $this->content = $content;

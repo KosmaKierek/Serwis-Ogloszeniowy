@@ -1,4 +1,7 @@
 <?php
+/**
+ * Tag entity.
+ */
 
 namespace App\Entity;
 
@@ -8,6 +11,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
+/**
+ * Tag Category.
+ *
+ * @psalm-suppress MissingConstructor
+ */
 #[ORM\Entity(repositoryClass: TagRepository::class)]
 #[ORM\Table(name: 'tags')]
 #[UniqueEntity(fields: ['title'])]
@@ -56,16 +64,29 @@ class Tag
     #[Assert\Length(min: 1, max: 64)]
     private ?string $title;
 
+    /**
+     * Getter for id.
+     *
+     * @return int|null id
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
+    /**
+     * @param \DateTimeInterface $createdAt datetime
+     *
+     * @return $this
+     */
     public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
         $this->createdAt = $createdAt;
@@ -73,11 +94,19 @@ class Tag
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
+    /**
+     * @param \DateTimeInterface $updatedAt updatedAt
+     *
+     * @return $this
+     */
     public function setUpdatedAt(\DateTimeInterface $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
@@ -85,11 +114,23 @@ class Tag
         return $this;
     }
 
+    /**
+     * Getter for slug.
+     *
+     * @return string|null slug
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * Setter for slug.
+     *
+     * @param string $slug slug
+     *
+     * @return $this
+     */
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
@@ -97,11 +138,23 @@ class Tag
         return $this;
     }
 
+    /**
+     * Getter for title.
+     *
+     * @return string|null title
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * Setter for title.
+     *
+     * @param string $title title
+     *
+     * @return $this
+     */
     public function setTitle(string $title): static
     {
         $this->title = $title;

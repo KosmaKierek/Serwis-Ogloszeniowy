@@ -11,6 +11,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Repository\AdvertRepository;
 
 /**
  * Class TagService.
@@ -31,10 +32,11 @@ class TagService implements TagServiceInterface
     /**
      * Constructor.
      *
-     * @param TagRepository      $tagRepository Tag repository
-     * @param PaginatorInterface $paginator     Paginator
+     * @param TagRepository      $tagRepository    Tag repository
+     * @param AdvertRepository   $advertRepository Advert repository
+     * @param PaginatorInterface $paginator        Paginator
      */
-    public function __construct(private readonly TagRepository $tagRepository, private readonly PaginatorInterface $paginator)
+    public function __construct(private readonly TagRepository $tagRepository, private readonly AdvertRepository $advertRepository, private readonly PaginatorInterface $paginator)
     {
     }
 
@@ -100,6 +102,13 @@ class TagService implements TagServiceInterface
         return $this->tagRepository->findOneByTitle($title);
     }
 
+    /**
+     * Can tag be deleted.
+     *
+     * @param Tag $tag Tag entity
+     *
+     * @return bool
+     */
     public function canBeDeleted(Tag $tag): bool
     {
         try {

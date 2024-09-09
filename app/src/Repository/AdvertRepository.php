@@ -90,29 +90,6 @@ class AdvertRepository extends ServiceEntityRepository
     }
 
     /**
-     * Apply filters to paginated list.
-     *
-     * @param QueryBuilder         $queryBuilder Query builder
-     * @param AdvertListFiltersDto $filters      Filters
-     *
-     * @return QueryBuilder Query builder
-     */
-    private function applyFiltersToList(QueryBuilder $queryBuilder, AdvertListFiltersDto $filters): QueryBuilder
-    {
-        if ($filters->category instanceof Category) {
-            $queryBuilder->andWhere('category = :category')
-                ->setParameter('category', $filters->category);
-        }
-
-        if ($filters->tag instanceof Tag) {
-            $queryBuilder->andWhere('tags IN (:tag)')
-                ->setParameter('tag', $filters->tag);
-        }
-
-        return $queryBuilder;
-    }
-
-    /**
      * Save entity.
      *
      * @param Advert $advert Advert entity
@@ -142,20 +119,6 @@ class AdvertRepository extends ServiceEntityRepository
     }
 
     /**
-     * Get or create new query builder.
-     *
-     * @param QueryBuilder|null $queryBuilder Query builder
-     *
-     * @return QueryBuilder Query builder
-     */
-    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
-    {
-        $queryBuilder = null;
-
-        return $queryBuilder ?? $this->createQueryBuilder('advert');
-    }
-
-    /**
      * Count adverts by category.
      *
      * @param Category $category Category
@@ -177,9 +140,11 @@ class AdvertRepository extends ServiceEntityRepository
     }
 
     /**
-     * Count recipes by Tag.
+     * Count adverts by Tag.
      *
-     * @return int Number of recipes in category
+     * @param Tag $tag Tag
+     *
+     * @return int Number of tags in category
      *
      * @throws NoResultException        noResultException
      * @throws NonUniqueResultException nonUniqueResultException
@@ -194,5 +159,42 @@ class AdvertRepository extends ServiceEntityRepository
             ->setParameter(':tag', $tag)
             ->getQuery()
             ->getSingleScalarResult();
+    }
+
+    /**
+     * Apply filters to paginated list.
+     *
+     * @param QueryBuilder         $queryBuilder Query builder
+     * @param AdvertListFiltersDto $filters      Filters
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function applyFiltersToList(QueryBuilder $queryBuilder, AdvertListFiltersDto $filters): QueryBuilder
+    {
+        if ($filters->category instanceof Category) {
+            $queryBuilder->andWhere('category = :category')
+                ->setParameter('category', $filters->category);
+        }
+
+        if ($filters->tag instanceof Tag) {
+            $queryBuilder->andWhere('tags IN (:tag)')
+                ->setParameter('tag', $filters->tag);
+        }
+
+        return $queryBuilder;
+    }
+
+    /**
+     * Get or create new query builder.
+     *
+     * @param QueryBuilder|null $queryBuilder Query builder
+     *
+     * @return QueryBuilder Query builder
+     */
+    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
+    {
+        $queryBuilder = null;
+
+        return $queryBuilder ?? $this->createQueryBuilder('advert');
     }
 }

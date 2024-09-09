@@ -1,4 +1,7 @@
 <?php
+/**
+ * User Repository.
+ */
 
 namespace App\Repository;
 
@@ -19,6 +22,11 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+    /**
+     * Constructor.
+     *
+     * @param ManagerRegistry $registry registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
@@ -35,19 +43,41 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * Get or create new query builder.
+     * Save user.
      *
-     * @param QueryBuilder|null $queryBuilder Query builder
+     * @param User $user User
      *
-     * @return QueryBuilder Query builder
+     * @throws OptimisticLockException
+     * @throws ORMException
      */
-    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
+    public function save(User $user): void
     {
-        return $queryBuilder ?? $this->createQueryBuilder('user');
+        assert($this->_em instanceof EntityManager);
+        $this->_em->persist($user);
+        $this->_em->flush();
+    }
+
+    /**
+     * Delete user.
+     *
+     * @param User $user User
+     */
+    public function delete(User $user): void
+    {
+        $adverts = $this->_em->getRepository(Advert::class)->findBy(['author' => $user]);
+        foreach ($adverts as $advert) {
+            $this->_em->remove($advert);
+        }
+
+        $this->_em->remove($user);
+        $this->_em->flush();
     }
 
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
+     *
+     * @param PasswordAuthenticatedUserInterface $user              User
+     * @param string                             $newHashedPassword Password
      */
     public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
     {
@@ -61,24 +91,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     }
 
     /**
-     * @throws OptimisticLockException
-     * @throws ORMException
+     * Get or create new query builder.
+     *
+     * @param QueryBuilder|null $queryBuilder Query builder
+     *
+     * @return QueryBuilder Query builder
      */
-    public function save(User $user): void
+    private function getOrCreateQueryBuilder(?QueryBuilder $queryBuilder = null): QueryBuilder
     {
-        assert($this->_em instanceof EntityManager);
-        $this->_em->persist($user);
-        $this->_em->flush();
-    }
-
-    public function delete(User $user): void
-    {
-        $adverts = $this->_em->getRepository(Advert::class)->findBy(['author' => $user]);
-        foreach ($adverts as $advert) {
-            $this->_em->remove($advert);
-        }
-
-        $this->_em->remove($user);
-        $this->_em->flush();
+        return $queryBuilder ?? $this->createQueryBuilder('user');
     }
 }

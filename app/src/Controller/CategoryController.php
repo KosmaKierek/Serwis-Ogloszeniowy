@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Class CategoryController.
@@ -26,6 +27,7 @@ class CategoryController extends AbstractController
      * Constructor.
      *
      * @param CategoryServiceInterface $categoryService Advert service
+     * @param TranslatorInterface      $translator      Translator interface
      */
     public function __construct(private readonly CategoryServiceInterface $categoryService, private readonly TranslatorInterface $translator)
     {
@@ -33,6 +35,8 @@ class CategoryController extends AbstractController
 
     /**
      * Index action.
+     *
+     * @param int $page page number
      *
      * @return Response HTTP response
      */

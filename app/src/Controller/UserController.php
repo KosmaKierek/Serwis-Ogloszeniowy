@@ -16,6 +16,7 @@ use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 /**
  * Class UserController.
@@ -34,6 +35,8 @@ class UserController extends AbstractController
 
     /**
      * Index action.
+     *
+     * @param int $page page
      *
      * @return Response HTTP response
      */
@@ -148,7 +151,7 @@ class UserController extends AbstractController
                 $this->translator->trans('message.not_allowed')
             );
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('advert_index');
         }
         $form = $this->createForm(
             FormType::class,

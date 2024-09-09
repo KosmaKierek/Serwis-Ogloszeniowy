@@ -1,4 +1,7 @@
 <?php
+/**
+ * Security Controller.
+ */
 
 namespace App\Controller;
 
@@ -16,6 +19,9 @@ use App\Service\UserServiceInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+/**
+ * Class SecurityController.
+ */
 class SecurityController extends AbstractController
 {
     /**
@@ -27,6 +33,13 @@ class SecurityController extends AbstractController
     {
     }
 
+    /**
+     * Login.
+     *
+     * @param AuthenticationUtils $authenticationUtils authentication
+     *
+     * @return Response HTTP response
+     */
     #[Route(path: '/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -45,6 +58,9 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
+    /**
+     * Logout.
+     */
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
