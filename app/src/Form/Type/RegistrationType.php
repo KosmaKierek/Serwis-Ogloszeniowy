@@ -56,8 +56,14 @@ class RegistrationType extends AbstractType
             RepeatedType::class,
             [
                 'type'            => PasswordType::class,
-                'first_options'   => ['label' => 'label.password'],
-                'second_options'  => ['label' => 'label.repeat_password'],
+                'first_options'   => ['label' => 'label.new_password',
+                    'attr'     => [
+                        'minlength' => 3,
+                    ], ],
+                'second_options'  => ['label' => 'label.repeat_new_password',
+                    'attr'     => [
+                        'minlength' => 3,
+                    ], ],
                 'invalid_message' => $this->translator->trans('message.invalid_repeated_password'),
                 'label'           => 'label.password',
                 'required'        => true,

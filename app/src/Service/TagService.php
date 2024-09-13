@@ -5,16 +5,16 @@
 
 namespace App\Service;
 
-use App\Entity\Tag;
 use App\Repository\TagRepository;
+use App\Entity\Tag;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
+use Doctrine\ORM\OptimisticLockException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use App\Repository\AdvertRepository;
 
 /**
- * Class TagService.
+ * Class NoteService.
  */
 class TagService implements TagServiceInterface
 {
@@ -32,11 +32,10 @@ class TagService implements TagServiceInterface
     /**
      * Constructor.
      *
-     * @param TagRepository      $tagRepository    Tag repository
-     * @param AdvertRepository   $advertRepository Advert repository
-     * @param PaginatorInterface $paginator        Paginator
+     * @param TagRepository      $tagRepository Tag repository
+     * @param PaginatorInterface $paginator     Paginator
      */
-    public function __construct(private readonly TagRepository $tagRepository, private readonly AdvertRepository $advertRepository, private readonly PaginatorInterface $paginator)
+    public function __construct(private readonly TagRepository $tagRepository, private readonly PaginatorInterface $paginator)
     {
     }
 
@@ -57,20 +56,6 @@ class TagService implements TagServiceInterface
     }
 
     /**
-     * Find by id.
-     *
-     * @param int $id Tag id
-     *
-     * @return Tag|null Tag entity
-     *
-     * @throws NonUniqueResultException
-     */
-    public function findOneById(int $id): ?Tag
-    {
-        return $this->tagRepository->findOneById($id);
-    }
-
-    /**
      * Save entity.
      *
      * @param Tag $tag Tag entity
@@ -84,6 +69,9 @@ class TagService implements TagServiceInterface
      * Delete entity.
      *
      * @param Tag $tag Tag entity
+     *
+     * @throws OptimisticLockException
+     * @throws ORMException
      */
     public function delete(Tag $tag): void
     {
@@ -103,20 +91,16 @@ class TagService implements TagServiceInterface
     }
 
     /**
-     * Can tag be deleted.
+     * Find by id.
      *
-     * @param Tag $tag Tag entity
+     * @param int $id Tag id
      *
-     * @return bool
+     * @return Tag|null Tag entity
+     *
+     * @throws NonUniqueResultException
      */
-    public function canBeDeleted(Tag $tag): bool
+    public function findOneById(int $id): ?Tag
     {
-        try {
-            $result = $this->advertRepository->countByTag($tag);
-
-            return !($result > 0);
-        } catch (NoResultException|NonUniqueResultException) {
-            return false;
-        }
+        return $this->tagRepository->findOneById($id);
     }
 }

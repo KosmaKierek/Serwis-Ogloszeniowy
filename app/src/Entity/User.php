@@ -51,9 +51,6 @@ class User extends \App\Dto\AdvertListInputFiltersDto implements UserInterface, 
     #[Assert\NotBlank]
     private ?string $password;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?Avatar $avatar = null;
-
     /**
      * Getter for id.
      *

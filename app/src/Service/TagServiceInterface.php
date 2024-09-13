@@ -6,7 +6,6 @@
 namespace App\Service;
 
 use App\Entity\Tag;
-use Doctrine\ORM\NonUniqueResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
@@ -19,7 +18,7 @@ interface TagServiceInterface
      *
      * @param int $page Page number
      *
-     * @return PaginationInterface<string, mixed> Paginated list
+     * @return PaginationInterface Pagination
      */
     public function getPaginatedList(int $page): PaginationInterface;
 
@@ -31,9 +30,11 @@ interface TagServiceInterface
     public function save(Tag $tag): void;
 
     /**
-     * Delete entity.
+     * Delete.
      *
-     * @param Tag $tag Tag entity
+     * @param Tag $tag Tag
+     *
+     * @return void Void
      */
     public function delete(Tag $tag): void;
 
@@ -45,24 +46,4 @@ interface TagServiceInterface
      * @return Tag|null Tag entity
      */
     public function findOneByTitle(string $title): ?Tag;
-
-    /**
-     * Find by id.
-     *
-     * @param int $id Tag id
-     *
-     * @return Tag|null Tag entity
-     *
-     * @throws NonUniqueResultException
-     */
-    public function findOneById(int $id): ?Tag;
-
-    /**
-     * Can Tag be deleted.
-     *
-     * @param Tag $tag Tag entity
-     *
-     * @return bool Result
-     */
-    public function canBeDeleted(Tag $tag): bool;
 }
